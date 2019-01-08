@@ -25,5 +25,9 @@ textarea {
 
 
 .nav-paisas {
-    background-color: green !important;
+    background-color: darkgreen !important;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color:white;
 }
