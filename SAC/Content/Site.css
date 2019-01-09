@@ -32,6 +32,7 @@ textarea {
     color: ghostwhite;
 }
 
-/*.navbar-inverse .navbar-nav > li > a:hover {
-    color: ghostwhite;
-}*/
+.nav-paisas > li > a:hover {
+    background-color: ghostwhite;
+}
+
