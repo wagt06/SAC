@@ -166,6 +166,11 @@
     <Compile Include="Models\dbModel.cs" />
     <Compile Include="Models\Graficos.cs" />
     <Compile Include="Models\Reportes\Quejas_Reporte.cs" />
+    <Compile Include="Models\Resoluciones\Casos.cs" />
+    <Compile Include="Models\Resoluciones\Casos_Usuarios.cs" />
+    <Compile Include="Models\Resoluciones\Comentarios_Casos.cs" />
+    <Compile Include="Models\Resoluciones\Estados_Casos.cs" />
+    <Compile Include="Models\Resoluciones\Resoluciones_Historico.cs" />
     <Compile Include="Models\Usuarios.cs" />
     <Compile Include="Models\Quejas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

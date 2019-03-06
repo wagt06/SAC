@@ -155,8 +155,6 @@ namespace SAC.Controllers
             return body;
         }
 
-
-
         // GET: Sugerencias/Edit/5
         public ActionResult Edit(int id)
         {
@@ -353,11 +351,24 @@ namespace SAC.Controllers
            
         }
 
+
+
+
+
+
         public ActionResult Resolucion(int Sugerencia)
         {
+            var sug = new Models.Quejas();
+            string area =  string.Empty;
 
+            using (var q = new Models.dbModel()) {
 
-            return View();
+                
+
+                sug = q.Quejas.Where(x => x.CodigoQueja == Sugerencia).FirstOrDefault();
+                area = q.Area.Where(a => a.CodigoArea == sug.CodigoSucursal).FirstOrDefault().NombreArea;
+            }
+                return View();
             //return Json(Graficos, JsonRequestBehavior.AllowGet);
         }
     }
