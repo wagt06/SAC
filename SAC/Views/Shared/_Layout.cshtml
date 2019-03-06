@@ -5,54 +5,105 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Los Paisas</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+
+    <link href="~/Content/css/chosen.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/css/responsive-slider.css" rel="stylesheet">
     <link href="~/Content/css/animate.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+    <link href="https://cdn.datatables.net/buttons/1.5.4/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto" rel="stylesheet">
+
+
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top nav-paisas">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <button type="button" class="navbar-toggle" id="btn-menu" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("LOS PAISAS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("LOS PAISAS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand hidden-sm" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav pull-right">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Quienes Somos", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Sugerencias", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Area de Clientes", "Contact", "Home")</li>
-                </ul>
+                    <li><a data-scroll href="~/home/#inicio"><i class="fas fa-home"></i> inicio</a>
+                    <li><a data-scroll href="~/home/#quienes_somos"><i class="fas fa-briefcase"></i> Quienes somos</a>
+                    <li><a data-scroll href="~/home/#contacto"><i class="fas fa-envelope"></i> Contacto</a>
+                    <li> <a href="http://app.paisas.club"><i class="fas fa-user-tag"></i> Pedidos en linea</a>
+                    <li>
+                        <a href="~/Sugerencias/Create"><i class="fas fa-user-secret"></i> Sugerencias</a>
+
+
+                        @{if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                            <li class="dropdown" style="margin:auto;padding:0">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle" style="font-size:1.2em"></i> @System.Web.HttpContext.Current.User.Identity.Name <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="~/Sugerencias/index">Panel </a></li>
+                                    <li><a href="~/Login/Delete/?id=1">Cerrar Sesión</a></li>
+                                </ul>
+                            </li>
+                        }
+                        }
+                        @{if (!System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                <li> <a href="~/Sugerencias/Index"><i class="fas  fa-user-circle" style="font-size:1.2em"></i> Iniciar sesión</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container-fluid">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Distribuidora Los Paisas</p>
-        </footer>
-    </div>
+        <div class="container-fluid">
+            @RenderBody()
+            @*<footer class="">
+                    <div class="col-md-12 text-center">
+                        <p>&copy; @DateTime.Now.Year - Distribuidora Los Paisas</p>
+                    </div>
+                </footer>*@
+            <!-- Start of LiveChat (www.livechatinc.com) code -->
+            <!-- End of LiveChat code -->
+        </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
 
-    <script src="~/Scripts/js/wow.min.js"></script>
-    <script src="~/Scripts/js/responsive-slider.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
 
-    <script>
-        wow = new WOW({}).init();
-        $('.myCarousel').carousel()
-    </script>
+        <script src="~/Scripts/js/wow.min.js"></script>
+        <script src="~/Scripts/js/smooth-scroll.polyfills.js"></script>
+        <script src="~/js/smooth-scroll.polyfills.js"></script>
+        @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+        @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+        <script>
 
-    @RenderSection("scripts", required: false)
-</body>
+            //window.__lc = window.__lc || {};
+            //window.__lc.license = 10563282;
+            //(function () {
+            //    var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+            //    lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+            //    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+            //})();
+
+
+            var scroll = new SmoothScroll('a[href*="#"]', {
+                speed: 1000,
+                speedAsDuration: true,
+                offset: 50
+            });
+
+            var wow = new WOW({}).init();
+        </script>
+ 
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

@@ -8,6 +8,10 @@ namespace SAC.Models
 
     public partial class Quejas
     {
+        public Quejas()
+        {
+            Fecha = DateTime.Now;
+        }
         [Key]
         public int CodigoQueja { get; set; }
 
@@ -29,4 +33,6 @@ namespace SAC.Models
 
         public string Imagen { get; set; }
     }
+
+   
 }

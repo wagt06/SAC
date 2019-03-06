@@ -156,10 +156,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SugerenciasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Area.cs" />
+    <Compile Include="Models\Config_mail.cs" />
     <Compile Include="Models\dbModel.cs" />
+    <Compile Include="Models\Graficos.cs" />
+    <Compile Include="Models\Reportes\Quejas_Reporte.cs" />
+    <Compile Include="Models\Usuarios.cs" />
     <Compile Include="Models\Quejas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -169,12 +176,26 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\animate.css" />
+    <Content Include="Content\css\chosen.css" />
     <Content Include="Content\css\responsive-slider.css" />
     <Content Include="Content\img\1.jpg" />
+    <Content Include="Content\img\1074118.jpeg" />
+    <Content Include="Content\img\1481054780733836946.gif" />
     <Content Include="Content\img\2.png" />
     <Content Include="Content\img\auxiliar-de-farmacia - copia.jpg" />
+    <Content Include="Content\img\Buzo.jpg" />
+    <Content Include="Content\img\chosen-sprite%402x.png" />
+    <Content Include="Content\img\chosen-sprite.png" />
     <Content Include="Content\img\cliente-mujer - copia.jpg" />
-    <Content Include="Content\img\logo_paisas - copia.png" />
+    <Content Include="Content\img\correocontactos.png" />
+    <Content Include="Content\img\icons8-binoculars-480.png" />
+    <Content Include="Content\img\icons8-briefcase-480.png" />
+    <Content Include="Content\img\icons8-mailbox-480.png" />
+    <Content Include="Content\img\icons8-scroll-480.png" />
+    <Content Include="Content\img\logo_paisas.svg" />
+    <Content Include="Content\img\logopaisas.png" />
+    <Content Include="Content\newletters\blog-stories.html" />
+    <Content Include="Content\newletters\Cliente-email-contacto.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -195,7 +216,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js\chosen.jquery.js" />
     <Content Include="Scripts\js\responsive-slider.js" />
+    <Content Include="Scripts\js\smooth-scroll.polyfills.js" />
     <Content Include="Scripts\js\wow.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
@@ -212,9 +235,14 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Sugerencias\Create.cshtml" />
+    <Content Include="Views\Sugerencias\Index.cshtml" />
+    <Content Include="Views\login\Login.cshtml" />
+    <Content Include="Views\Sugerencias\Resolucion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Resoluciones\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -1,0 +1,135 @@
+﻿@model SAC.Models.Quejas
+
+@{
+
+    ViewBag.Title = "Nuevo";
+}
+
+<div class="container  sugerencia" style="padding-top:8vh">
+    <h2 class="text-center"><strong>Buzón de Quejas y Sugerencias</strong></h2>
+    <div class="col-md-6 img-sugerecia wow bounceIn">
+        <img src="~/Content/img/Buzo.jpg" class="img-responsive img-rounded" />
+        <div class="bs-callout bs-callout-green">
+            <h4>Campos Requeridos para sus comentarios</h4>
+            <p>Si usted es un cliente tipo de queja es de clientes y seleccione el area que va dirigida sus comentarios,  <strong>El Nombre Cliente </strong> es un campo
+            opcional, si desea guardar su identidad.</p>
+        </div>
+    </div>
+    <div data-wow-delay="0.8s" class="col-md-5 wow bounceIn">
+        <form asp-action="Create" method="post" id="frmSugerencia" class="">
+                @Html.AntiForgeryToken()
+            <div class="form-group">
+                <h4 class="text-center">Tus comentarios y sugerencias nos ayudan a mejorar</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(Model => Model.CodigoQueja)
+
+                    <div class="form-group">
+                        <label class="control-label">Tipo de Queja</label>
+                        <select asp-for="CodigoTipo" class="form-control" id="CodigoTipo" name="CodigoTipo">
+                            <option value=1>Cliente</option>
+                            <option value=3>Proveedor</option>
+                            <option value=2>Trabajador</option>
+                        </select>
+                        <span asp-validation-for="CodigoTipo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Area afectada</label>
+                        <select asp-for="CodigoDepartamento" id="CodigoDepartamento" name="CodigoDepartamento" class="form-control">
+                            @foreach (SAC.Models.Area a in ViewBag.Areas)
+                            {
+                                <option value=@a.CodigoArea>@a.NombreArea</option>
+                            }
+                            @*<option value=1>Puestos</option>
+                            <option value=1>Contabilidad</option>
+                            <option value=2>RRHH</option>
+                            <option value=2>Contabilidad</option>*@
+                        </select>
+                        <span asp-validation-for="CodigoDepartamento" class="text-danger"></span>
+                    </div>
+
+
+
+                @*
+        <div class="form-group">
+            @Html.LabelFor(model => model.CodigoSucursal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CodigoSucursal, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CodigoSucursal, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                <div class="form-group">
+                    <label class="control-label" for="Empleado">Nombre:*</label>
+                    @Html.EditorFor(model => model.Empleado, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Empleado, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="Queja">Sugerencia</label>
+                    @* @Html.LabelFor(model => model.Queja, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    @*@Html.TextArea(, model => model.Queja, new { htmlAttributes = new { @class = "form-control" } })*@
+                    <textarea class="form-control" id="Queja" name="Queja" rows="5" required></textarea>
+                    @Html.ValidationMessageFor(model => model.Queja, "", new { @class = "text-danger" })
+                </div>
+
+                @*<div class="form-group">
+            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+        </div>*@
+
+                @*<div class="form-group">
+            @Html.LabelFor(model => model.Ubicacion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Ubicacion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Ubicacion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Imagen, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Imagen, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Imagen, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                <div class="form-group">
+                    <input type="submit" value="Enviar Sugerencia" id="btnGuardar" class="btn btn-success btn-lg" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    //$("#btnGuardar").click(function () {
+    //    var codigo = $("#CodigoQueja").val();
+    //    var queja = $("#Queja").val();
+    //    var empleado = $("#Empleado").val();
+    //    var fecha = $("#Fecha").val();
+
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "create",
+    //        data: "CodigoQueja=" + codigo + "&Queja=" + queja + "&Empleado=" + empleado + "&fecha=" + fecha,
+    //        dataType: "html",
+    //        success: function (msg) {
+    //           // $("#risultato").html(msg);
+    //            //clearForm("#frmSugerencia");
+    //        },
+    //        error: function () {
+    //            alert("Chiamata fallita, si prega di riprovare...");
+    //        }
+    //    });
+    //});
+</script>
+}

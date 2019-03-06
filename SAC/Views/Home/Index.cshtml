@@ -1,35 +1,36 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    var display = (ViewBag.Sugerencia) ? "true" : "false";
 }
-<div class="row">
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+
+<div class="contenedor inicio" id="inicio">
+    <div id="myCarousel" class="carousel slide contenedor inicio" data-ride="carousel" data-interval="8000">
         <!-- Indicators -->
         <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="0" data-interval="8000" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1" data-interval="8000"></li>
         </ol>
 
         <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <img src="~/Content/img/1.jpg" alt="Los Angeles" style="width:100%;">
+        <div class="carousel-inner car" style="width:100%">
+            <div class="item active" style="width:100%">
+                <img class="img_c" src="~/Content/img/1.jpg" alt="Los Angeles">
                 <div class="carousel-caption">
-                    <img src="~/Content/img/logo_paisas - copia.png" class="hidden-xs" alt="Los Angeles" style="width:50%">
-                    <h1>Distribuidora Los Paisas</h1>
-                    <p>Venta y Distribucion de medicamentos !</p>
+                    <img data-wow-delay="0.8s" src="~/Content/img/logo_paisas.svg" class="hidden-xs img-logo wow bounceInUp" alt="Los Angeles">
+                    <h1 data-wow-delay="0.8s" class=" wow rollIn">Distribuidora Los Paisas</h1>
+                    <p data-wow-delay="0.8s" class=" wow rollIn">Venta y Distribucion de medicamentos !</p>
                 </div>
             </div>
 
-            <div class="item">
-                <img src="~/Content/img/2.png" alt="Chicago" style="width:100%;">
+            <div class="item" style="height:100%">
+                <img class="img_c" src="~/Content/img/2.png" alt="Chicago">
             </div>
 
             @*<div class="item">
                     <img src="~/Content/img/2.png" alt="New york" style="width:100%;">
                 </div>*@
         </div>
-
         <!-- Left and right controls -->
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left"></span>
@@ -41,30 +42,270 @@
         </a>
     </div>
 </div>
-@*<div class="jumbotron">
-        <h1>ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<section id="quienes_somos" class="contenedor clearfix" style="
+        background-image: url('../../Content/img/1074118.jpeg');
+        color: black;
+        background-repeat: no-repeat;
+        background-size: cover">
+    <div class="col-md-12">
+    <p class="text-center quienes-somos" @*style="font-size:6em;font-family:'Montserrat';font-weight:900;color:black;padding-top:0.5em"*@>Quienes somos</p>
+
+    <div class="col-md-8 col-md-offset-2 clearfix titulo-quienes-somos">
+        <div class="col-md-12 wow bounceIn" data-wow-delay="0.5s">
+            @*<div class="col-md-3  col-xs-4">
+                <img src="~/Content/img/icons8-briefcase-480.png" class="img-responsive" style="width:8em" />
+            </div>*@
+            <div class="col-md-12  col-xs-12">
+                <h2 style="font-family:Arial;font-size:1.3em;text-align:center"><strong>Misión</strong></h2>
+                <p>
+                    Proveemos oportunidades de negocios a nuestros clientes en el mercado de insumos médicos,
+                    con beneficios en el marco de un servicio rápido y eficiente.
+                </p>
+            </div>
         </div>
-        <div class="col-md-4">
-            <h2>Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <div class="col-md-12 col-sm-12 wow bounceInUp " data-wow-delay="0.8s">
+            @*<div class="col-md-3 col-xs-4">
+                <img src="~/Content/img/icons8-binoculars-480.png" class="img-responsive" style="width:8em" />
+            </div>*@
+            <div class="col-md-12 col-xs-12">
+                <h2 style="font-family:Arial;font-size:1.3em;text-align:center"><strong>Visión</strong></h2>
+                <p>
+                    Ser una empresa líder nacional en la provisión de oportunidades de
+                    negocios a través de nuevas líneas de productos innovadores en el
+                    mercado de insumos médicos, con un fuerte compromiso en el
+                    desarrollo de nuestros clientes, tanto internos como externos.
+                </p>
+            </div>
         </div>
-        <div class="col-md-4">
-            <h2>Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        @*<div class="col-md-12 wow bounceInLeft" data-wow-delay="1.3s">
+            <div class="col-md-3 col-xs-4">
+                <img src="~/Content/img/icons8-scroll-480.png" class="img-responsive" style="width:8em" />
+            </div>
+            <div class="col-md-8 col-xs-8">
+                <h3> Valores</h3>
+                <ul>
+                    <li>Telefonos </li>
+                    <li>Direccion </li>
+                    <li>Correo </li>
+                </ul>
+            </div>
+        </div>*@
+    </div>
+    </div>
+    <div class="col-md-4 img-quienes wow rollIn">
+        @*<img class="img-responsive img-rounded table-bordered" src="~/Content/img/auxiliar-de-farmacia - copia.jpg" />*@
+    </div>
+</section>
+
+<section id="contacto" class="container-fluid" style="background-color:rgb(53, 59, 72);color:white;background-image:url()" >
+    <div class="contacto"  >
+        <div class="col-md-12">
+            <h1 class="text-center contacto-titulo">Contáctanos</h1>
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-center" style="font-size:2em">Comunicate con nosotros a travez de la siguiente informacion, visitandonos o escribiendo a nuestro correo</p>
+            </div>
         </div>
-    </div>*@
+     
+
+        <div class="col-md-12">
+            <div class="col-md-4 col-sm-12 clearfix" style="margin-top:1em;background-color:rgba(255, 255, 255, 0.00);color:black;border-radius:5px; color:white;height:450px;overflow:hidden">
+                <iframe class="mapa" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3900.6119567425653!2d-86.25589938546156!3d12.138681235890784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f73fdfe2dc01da7%3A0x97181e03f95328d0!2sFarmacia+Los+Paisas!5e0!3m2!1ses-419!2sni!4v1546869109223" width="100%" height="450" frameborder="0" style="border:0;margin:0" allowfullscreen></iframe>
+            </div>
+
+            <div class="col-md-5 col-sm-6 text-center" style="margin-top:2em;">
+                <img src="~/Content/img/logo_paisas.svg" class="img-responsive" style="width:60%;margin-left:20%" />
+                <address>
+                    <strong>Distribuidora Los Paisas S.A.</strong><br>
+                    Venta y Distribución de medicamentos <br>
+                    <br>
+                    <strong>Telefonos:</strong>
+                    <abbr title="Phone">P:</abbr> (505) 7833-4500
+                    <br>
+                    <strong>Dirección:</strong>
+                    <abbr title="Dir">Bo:</abbr> Campo Bruce, Donde fue el cine salinas
+                </address>
+
+                <address>
+                    <strong>Correo</strong><br>
+                    <a href="mailto:#">info@lospaisas.com</a>
+                </address>
+                © @DateTime.Now.Year - Distribuidora Los Paisas
+            </div>
+
+            <div class="col-md-3 col-sm-6" style="margin-top:1em;background-color:rgba(255, 255, 255, 0.80);color:black;border-radius:5px; color:white;height:450px;margin-bottom:2em">
+                <h3 class="text-center text-info"><strong>Formulario de Contacto</strong></h3>
+                <form class="form-contacto" id="form-contacto" style="color:lightgray">
+                    <div id="alerta-correo" class="alert alert-success hidden small" role="alert" style="margin-bottom:2px">El mensaje se envio con éxito</div>
+                    <div class="form-group form-group-sm">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-user-tie"></i></span>
+                            <input type="text" class="form-control" placeholder="Su nombre" aria-describedby="sizing-addon2" id="nombre" required>
+                        </div>
+
+                        @*<label class="control-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" required />*@
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
+                            <input type="text" class="form-control" placeholder="Correo Electronico" aria-describedby="sizing-addon2" id="correo" required>
+                        </div>
+                        @*<label class="control-label">Correo</label>
+                    <input type="email" class="form-control" id="correo" required />*@
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-mobile-alt"></i></span>
+                            <input type="text" class="form-control" placeholder="Telefono" aria-describedby="sizing-addon2" id="telefono" required>
+                        </div>
+                        @*<label class="control-label">Telefono</label>
+                    <input type="text" class="form-control" id="telefono" required />*@
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-comment-alt"></i></span>
+                            <input type="text" class="form-control" placeholder="Asunto" aria-describedby="sizing-addon2" id="asunto" required>
+                        </div>
+                        @*<label class="control-label">Asunto</label>
+                    <input type="text" class="form-control" id="asunto" required />*@
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-clipboard-list"></i></span>
+                            <textarea class="form-control" placeholder="Escriba su comentario para contacto" rows="5" id="message" required></textarea>
+                        </div>
+                        @*<label class="control-label">Mensaje</label>
+                    <textarea id="message" name="message" class="form-control" rows="5" data-msg="Please write something for us" data-rule="required"></textarea>*@
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <input type="button" name="btnEnviarCorreo" id="btnEnviarCorreo" value="Enviar Mensaje" class="btn btn-block btn-info btn-group-lg" />
+                    </div>
+                </form>
+
+            </div>
+            @*<a href="~/home/#inicio" class="btn btn-primary"><i class="fas fa-arrow-circle-up"></i></a>*@
+        </div>
+    </div>
+</section>
+
+<!-- Button trigger modal -->
+<button type="button" id="btnModal" class="btn btn-primary hidden" data-toggle="modal" data-target="#exampleModal"></button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="200" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title" id="exampleModalLabel">Gracias por ayudarnos a Mejorar!</h3>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2 col-xs-2 col-xs-4">
+                        <img src="~/Content/img/icons8-mailbox-480.png" class="img-thumbnail img-responsive" />
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-xs-8 ">
+                        <p>
+                            Tu sugerencia a sido enviada, Gracias por tu apoyo pronto estaremos mejorando para ti!
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+<script>
+
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
+
+        if (@display ) {
+            $('#btnModal').click();
+    }
+
+    $('#myCarousel').carousel({
+        interval:8000
+    })
+
+  
+        $("#btnEnviarCorreo").click(function() {
+
+            if (!validar()) { return;}
+            var nombre = $("#nombre").val();
+            var correo = $("#correo").val();
+            var asunto = $("#asunto").val();
+            var message = $("#message").val();
+            var telefono = $("#telefono").val();
+
+            $("#alerta-correo").hide().removeClass('hidden').slideDown('fast');
+            $("#alerta-correo").html("Enviando!...");
+            $.ajax({
+                url: "/sugerencias/EnviarCorreo",
+                data: "&nombre=" + nombre + "&correo=" + correo + "&asunto=" + asunto + "&message=" + message + "&Telefono=" + telefono + "&Dest=" + "1",
+                dataType: "html",
+                type: "POST",
+                success: function (result) {
+                    if (result == 'true') {
+                        limpiar();
+                        $("#alerta-correo").hide().removeClass('hidden').slideDown('fast');
+                        $("#alerta-correo").html("El correo se envio exitosamente!");
+                        $("#alerta-correo").fadeOut(3500);
+                      // alert("El correo se envio exitosamente!");
+                    } else {
+                        $("#alerta-correo").hide().removeClass('hidden').slideDown('fast');
+                        $("#alerta-correo").html("Ocurrio una falla, intente nuevamente!");
+                        $("#alerta-correo").fadeOut(3500);
+                    }
+                        // $("#risultato").html(msg);
+                        //clearForm("#frmSugerencia");
+                    },
+                error: function () {
+                    alert("ocurrio una falla, intente nuevamente!.");
+                    }
+            });
+    });
+    $("#correo").focusout(function () {
+        if ($("#correo").val().indexOf('@@', 0) == -1 || $("#correo").val().indexOf('.', 0) == -1) {
+            alert('El correo electrónico introducido no es correcto.');
+            return false;
+        }
+    });
+
+    function validar() {
+        if($("#correo").val().indexOf('@@', 0) == -1 || $("#correo").val().indexOf('.', 0) == -1) {
+            $("#alerta-correo").hide().removeClass('hidden').slideDown('fast');
+            $("#alerta-correo").html("Correo no es valido!");
+            $('#alerta-correo').focus();
+            $("#alerta-correo").fadeOut(3500);
+            return false;
+        }
+        if ($("#telefono").val().length <= 0) {
+            $("#alerta-correo").hide().removeClass('hidden').slideDown('fast');
+            $("#alerta-correo").html("Telefono es obligatorio!");
+            $('#telefono').focus();
+            $("#alerta-correo").fadeOut(3500);
+            return false;
+        }
+        return true;
+    }
+        function limpiar() {
+            $("#nombre").val("");
+            $("#correo").val("");
+            $("#asunto").val("");
+            $("#message").val("");
+            $("#telefono").val("");
+        }
+</script>
+}

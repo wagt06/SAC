@@ -1,12 +1,12 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+margin:0;
+padding:0!important;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -16,23 +16,292 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
+/* Set width on the form input elements since they're 100% wide by default 
 input,
 select,
 textarea {
     max-width: 280px;
 }
-
+*/
 
 .nav-paisas {
-    background-color: darkgreen !important;
+    background-color: darkgreen !important; 
 }
 
-.navbar-inverse .navbar-nav > li > a {
-    color: ghostwhite;
+.nav-paisas .navbar-nav > li > a {
+        color: white !important;
+    }
+
+.nav-paisas .navbar-nav > li > a:hover {
+     background-color: green;
+      /*color: darkgreen !important;*/
+}
+.navbar-brand {
+    color:white
+}
+.navbar-brand:hover {
+    color:white
 }
 
-.nav-paisas > li > a:hover {
-    background-color: ghostwhite;
+
+/*.modal-dialog {
+    margin-top: 25vh !important;
+}*/
+
+@media (min-width: 768px) and (max-width: 2250px) {
+    .img-logo {
+        width: 60%;
+    }
+    .car, .item, .img_c {
+        width: 100%;
+        height: 100% !important;
+    }
 }
 
+
+
+@media (min-width: 768px) and (max-width: 2250px) {
+    .img-logo {
+        width: 60%;
+        margin: 0;
+        padding: 0
+    }
+
+    .contenedor {
+        width: 100%;
+        height: 100vh;
+        border: 0 !important;
+        padding: 0 !important;
+    }
+
+    .quienes_somos {
+        height: 95vh;
+    }
+
+    .contacto {
+        height: 95vh;
+        border: 0 !important;
+        padding: 0 !important;
+    }
+
+    .nav-paisas {
+        height: 7vh;
+    }
+       .nav-paisas .navbar-nav > li > a {
+        height: 7vh;
+       }
+    .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
+    background-color:green
+    }
+    /*.quienes_somos {
+        padding-top:5em;
+    }
+    #contacto {
+        padding-top: 5em;
+    }*/
+    .img-quienes {
+        padding: 5em 1em 1em 1em;
+    }
+
+    .position-absolute {
+        background-color: rgba(255, 255, 255, 0.70);
+        padding: 2em;
+        position: absolute
+    }
+
+    .carousel-caption {
+        margin-bottom: 20vh;
+    }
+
+    .img-sugerecia {
+        padding: 4% !important;
+    }
+
+    .sugerencia {
+        height: 80vh;
+        margin-top: 3em;
+    }
+
+    .lista-sugerencias {
+        height: 80vh;
+        margin-top: 5em;
+    }
+
+    .login-panel {
+        padding-top: 20vh;
+        /*margin-left: 40%;*/
+    }
+
+
+    /*stilos titulos*/
+    .quienes-somos {
+        font-family: "Arial Black", Gadget, sans-serif;
+        /*text-shadow: -1px 0px 1px #000000;
+        text-shadow: -1px 0px 5px #000000;*/
+        font-size: 60px;
+        letter-spacing: 0.4px;
+        word-spacing: 3px;
+        color: white;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: uppercase;
+        padding-top: 0.5em;
+    }
+
+    .contacto-titulo {
+        font-family: "Arial Black", Gadget, sans-serif;
+        font-size: 60px;
+        letter-spacing: 0.4px;
+        word-spacing: 3px;
+        color: white;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: uppercase;
+        padding-top: 0.5em;
+    }
+    .titulo-quienes-somos {
+        margin-top: 1em;
+        background-color: rgba(255, 255, 255, 0.10);
+        color: white;
+        text-shadow: -1px 0px 1px #000000;
+        border-radius: 10px 40px;
+        font-size: 2em;
+        font-family: Montserrat, Gadget, sans-serif;
+        letter-spacing: -1.2px;
+        word-spacing: -1.4px;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+        text-align: justify
+    }
+    .car, .item, .img_c {
+        width: 100%;
+        height: 100% !important;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .car, .item, .img_c {
+        width: 100%;
+        height: auto !important;
+    }
+
+    .login-panel {
+        padding-top: 5vh;
+    }
+    .inicio {
+        padding-top: 4vh;
+        /*height:60vh;*/
+    }
+    .titulo-quienes-somos {
+        margin-top: 2em;
+        background-color: rgba(255, 255, 255, 0.60);
+        border-radius: 10px;
+        color: black;
+    }
+    .quienes-somos {
+        font-size: 3em;
+        font-family: "Arial Black", Gadget, sans-serif;
+        letter-spacing: 0.4px;
+        word-spacing: 3px;
+        color: white;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: uppercase;
+        padding-top: 0.5em;
+    }
+
+    .contacto-titulo {
+        font-size: 3em;
+        font-family: "Arial Black", Gadget, sans-serif;
+        letter-spacing: 0.4px;
+        word-spacing: 3px;
+        color: white;
+        font-weight: 700;
+        text-decoration: none;
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: uppercase;
+        padding-top: 0.5em;
+    }
+
+    .img-quienes {
+        padding: 1em 1em 1em 1em;
+    }
+    .img_c {
+        width: 100%;
+        height: 100%;
+    }
+}
+    .lista-sugerencias {
+        margin-top: 5em;
+    }
+
+    .form-contacto {
+        padding: 1em;
+    }
+
+    .mapa {
+        height: 40em;
+    }
+
+    .alert {
+        padding: 5px;
+    }
+
+    .row-queja {
+        width: 20%
+    }
+
+
+    .cabecera {
+        background-color: darkgreen;
+        color: white;
+    }
+
+
+    table.dataTable tbody th {
+        padding: 0px 5px;
+    }
+
+    table.dataTable tbody td {
+        color: black;
+    }
+
+
+body {
+    font-family: 'Roboto', sans-serif !important;
+}
+.container-fluid {
+   padding-left:0;
+   padding-right:0;
+}
+
+
+.bs-callout-green {
+    background-color: #fcf2f2;
+    border-color: #dFb5b4;
+}
+
+.bs-callout {
+    margin: 20px 0;
+    padding: 15px 30px 15px 15px;
+    border-left: 5px solid #eee;
+}
+
+.navbar-inverse .navbar-nav > .open > a:hover {
+    color: #fff;
+    background-color: green;
+}
+
+
+   

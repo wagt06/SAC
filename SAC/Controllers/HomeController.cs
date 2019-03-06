@@ -8,8 +8,9 @@ namespace SAC.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string sugerencia)
         {
+            ViewBag.Sugerencia =  (sugerencia is null)?false:true ;
             return View();
         }
 
