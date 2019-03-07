@@ -244,11 +244,11 @@
     <Content Include="Views\Sugerencias\Create.cshtml" />
     <Content Include="Views\Sugerencias\Index.cshtml" />
     <Content Include="Views\login\Login.cshtml" />
-    <Content Include="Views\Sugerencias\Resolucion.cshtml" />
+    <Content Include="Views\Casos\Resolucion.cshtml" />
+    <Content Include="Views\Casos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Casos\" />
     <Folder Include="Views\Resoluciones\" />
   </ItemGroup>
   <ItemGroup>

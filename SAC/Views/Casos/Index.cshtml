@@ -1,0 +1,93 @@
+﻿@model List<SAC.Models.Resoluciones.Casos>
+
+<div class="col-md-8" style="margin-top:10vh">
+    <div class="table-responsive">
+        <table class="table table-condensed display" id="table-casos">
+            <thead>
+                <tr class="cabecera">
+
+                    <th width="10">
+                        No.Caso
+                    </th>
+                    <th  width="10">
+                        No.Sugerencia
+                    </th>
+                    <th>
+                        Responsable
+                    </th>
+                    <th>
+                        Comentario
+                    </th>
+                    <th width="100">
+                        Fecha
+                    </th>
+                    <th width="10">
+                        Estado
+                    </th>
+                    <th width="10"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id_Caso)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Codigo_Queja)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Codigo_Responsable)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comentario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha_Creacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Codigo_Estado)
+                        </td>
+                        <td>
+                            <a href="~/Casos/Resolucion/?caso=@item.Id_Caso" id = @item.Id_Caso class="btn btn-info">ir</a>
+                            @*@Html.ActionLink("Ir", "Edit", new { id = item.Id_Caso}, new { class = "btn btn-sucess"})*@ 
+                            @*@Html.ActionLink("Details", "Details", new { id = item.Id_Caso }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Caso })*@
+                        </td>
+                     </tr>
+                    }
+                <tbody>
+            </table>
+    </div>
+</div>
+@section Scripts {
+    
+   @*
+    <script type="text/javascript" charset="utf8" src="https://code.highcharts.com/highcharts.src.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script type="text/javascript" charset="utf8" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    *@
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.4/js/dataTables.buttons.min.js"></script>
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.4/js/buttons.html5.min.js"></script>
+            <script>
+
+                $(document).ready(function () {
+                    $('#table-casos').DataTable({
+                        //dom: 'Bfrtip',
+                        //buttons: [
+                        //    'copy', 'csv', 'excel', 'pdf'
+                        //],
+                        "order": [[4, "desc"]],
+                    });
+                });
+            </script>
+        }
