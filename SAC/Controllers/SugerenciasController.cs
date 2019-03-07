@@ -155,6 +155,8 @@ namespace SAC.Controllers
             return body;
         }
 
+
+
         // GET: Sugerencias/Edit/5
         public ActionResult Edit(int id)
         {
@@ -321,55 +323,34 @@ namespace SAC.Controllers
 
         public ActionResult ExportSugerencias()
         {
-            
+
             using (var db = new Models.dbModel()) {
                 var listaSugerencias = (from q in db.Quejas
-                                   join a in db.Area on q.CodigoDepartamento equals a.CodigoArea
-                                   select new { codigo = q.CodigoQueja, Tipo = q.CodigoTipo,Sucursal = q.CodigoSucursal, Codigo_Area = q.CodigoDepartamento,Area =  a.NombreArea,q.Empleado, q.Queja, q.Fecha }).ToList();
+                                        join a in db.Area on q.CodigoDepartamento equals a.CodigoArea
+                                        select new { codigo = q.CodigoQueja, Tipo = q.CodigoTipo, Sucursal = q.CodigoSucursal, Codigo_Area = q.CodigoDepartamento, Area = a.NombreArea, q.Empleado, q.Queja, q.Fecha }).ToList();
 
 
-         
-            var grid = new System.Web.UI.WebControls.GridView();
-            grid.DataSource = listaSugerencias;
+
+                var grid = new System.Web.UI.WebControls.GridView();
+                grid.DataSource = listaSugerencias;
                 grid.BorderStyle = System.Web.UI.WebControls.BorderStyle.None;
 
-            grid.DataBind();
+                grid.DataBind();
 
-            Response.ClearContent();
-            var fName = string.Format("Sugerencias-{0}", DateTime.Now.ToString("s"));
-            Response.AddHeader("content-disposition", "attachement; filename=" + fName  + ".xls");
-            Response.ContentType = "application/excel";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            grid.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
+                Response.ClearContent();
+                var fName = string.Format("Sugerencias-{0}", DateTime.Now.ToString("s"));
+                Response.AddHeader("content-disposition", "attachement; filename=" + fName + ".xls");
+                Response.ContentType = "application/excel";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                grid.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
             }
 
             return View();
-           
-        }
 
-
-
-
-
-
-        public ActionResult Resolucion(int Sugerencia)
-        {
-            var sug = new Models.Quejas();
-            string area =  string.Empty;
-
-            using (var q = new Models.dbModel()) {
-
-                
-
-                sug = q.Quejas.Where(x => x.CodigoQueja == Sugerencia).FirstOrDefault();
-                area = q.Area.Where(a => a.CodigoArea == sug.CodigoSucursal).FirstOrDefault().NombreArea;
-            }
-                return View();
-            //return Json(Graficos, JsonRequestBehavior.AllowGet);
         }
     }
 }
