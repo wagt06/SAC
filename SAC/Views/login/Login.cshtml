@@ -94,7 +94,7 @@
                                   var returnUrl = "@Request.QueryString["ReturnUrl"]";
 
                                  if (returnUrl == "") {
-                                     window.location.href = "@Url.Action("index", "sugerencias")";
+                                     window.location.href = "@Url.Action("Panel", "Home")";
                                  }
                                  else {
                                      window.location.href = returnUrl;

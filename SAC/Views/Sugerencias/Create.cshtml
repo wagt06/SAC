@@ -27,9 +27,10 @@
                     <div class="form-group">
                         <label class="control-label">Tipo de Queja</label>
                         <select asp-for="CodigoTipo" class="form-control" id="CodigoTipo" name="CodigoTipo">
-                            <option value=1>Cliente</option>
-                            <option value=3>Proveedor</option>
-                            <option value=2>Trabajador</option>
+                            @foreach (SAC.Models.TiposQuejas a in ViewBag.Tipos)
+                            {
+                                <option value=@a.CodigoTipoQueja>@a.Descripcion</option>
+                            }
                         </select>
                         <span asp-validation-for="CodigoTipo" class="text-danger"></span>
                     </div>
@@ -61,7 +62,7 @@
         </div>*@
 
                 <div class="form-group">
-                    <label class="control-label" for="Empleado">Nombre:*</label>
+                    <label class="control-label" for="Empleado">Nombre:</label>
                     @Html.EditorFor(model => model.Empleado, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Empleado, "", new { @class = "text-danger" })
                 </div>

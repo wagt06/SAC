@@ -1,73 +1,110 @@
 ﻿@model IEnumerable<SAC.Models.Quejas>
 
 @{
-    ViewBag.Title = "lista";
+    Layout = "~/Views/Shared/_Panel_Layout.cshtml";
+    ViewBag.Title = "Sugerencias";
 }
-<div class="lista-sugerencias">
 
-    <div class="col-md-5">
-        <div class="text-center">
-            <h2><strong>Quejas y sugerencias</strong></h2>
-        </div>
-        <div class="panel panel-default" style="margin-top:0.3em">
-            <div class="panel-heading" style="background-color:darkgreen"></div>
-            <div class="panel-body">
-                <div id="container" style="height: 250px;"></div>
-                @*<div id="myfirstchart" style="height: 250px;"></div>*@
+
+<div class="container-fluid">
+    <div class="col-md-12" style="padding-top:1em">
+        <h2><strong>Quejas y sugerencias</strong></h2>
+        <form action="~/Casos/Index" method="get">
+            <div class="form-inline text-center">
+
+                <div class="form-group text-left">
+                    <label >Fecha Inicial:</label>
+                    <br />
+                    <input type="date" name="FechaIni" id="FechaIni" value="@DateTime.UtcNow.AddDays(-30).ToString("yyyy-MM-dd")" class="form-control" />
+                </div>
+                <div class="form-group text-left" style="margin-left:2em">
+                    <label>Fecha Final:</label>
+                    <br />
+                    <input type="date" name="FechaFin:" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                </div>
+                <div class="form-group text-left" style="padding-left:2em">
+                    <label class="">Estado</label>
+                    <br />
+                    <select class="form-control" name="Estado">
+                        <option value="0" selected>-- Todos --</option>
+                        @foreach (SAC.Models.Resoluciones.Estados_Casos e in ViewBag.Estados)
+                        {
+                            var Selected = e.Codigo_Estado == 0 ? "selected" : "";
+
+                            <option value="@e.Codigo_Estado" @Selected>@e.Nombre_Estado</option>
+                        }
+
+                    </select>
+                    <input data-ajax="true" type="submit" class="btn btn-info" value="Filtar" />
+                </div>
+
             </div>
-        </div>
+        </form>
     </div>
-    <div class="col-md-7 ">
-        <div class="table-responsive">
-            <table class="table table-condensed display" id="table-sugerencias">
-                <thead>
-                    <tr class="cabecera">
-                        <th>
-                            Empleado
-                        </th>
-                        <th style="width:40%">
-                            Sugerencia
-                        </th>
-                        <th>
-                            Fecha
-                        </th>
-                        <th></th>
+</div>
+<br />
+<br />
+<div class="col-md-12">
+    <div class="table-responsive">
+        <table class="table table-condensed display" id="table-sugerencias">
+            <thead>
+                <tr class="cabecera">
+                    <th>
+                        Empleado
+                    </th>
+                    <th style="width:30%">
+                        Sugerencia
+                    </th>
+                    <th>
+                        Fecha
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="width:20%">
+                            @Html.DisplayFor(modelItem => item.Empleado)
+                        </td>
+                        <td>
+                            @{
+                                if (item.Queja.Length > 60)
+                                {
+                                    @item.Queja.Substring(0, 60);
+                                }
+                                else
+                                { @item.Queja.ToString();
+                            }
+                            }
+                        </td>
+                        <td style="width:10%">
+                            @item.Fecha.ToShortDateString()
+                        </td>
+                        <td style="width:30%">
+                            <button type="button" id="CodigoQueja" onclick="return verComentario('@item.CodigoQueja')" class="btn btn-secondary btn-sm btn-dt">Detalle</button>
+                            <a href="~/Casos/Create/?codigo=@item.CodigoQueja" class="btn btn-primary btn-sm">Crear Caso</a>
+                            @*<div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   Ir al Caso
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Dropdown link</a></li>
+                                </ul>
+                            </div>*@
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td style="width:20%">
-                                @Html.DisplayFor(modelItem => item.Empleado)
-                            </td>
-                            <td>
-                                @{
-                                    if (item.Queja.Length > 60)
-                                    {
-                                        @item.Queja.Substring(0, 60);
-                                    }
-                                    else
-                                    { @item.Queja.ToString();
-                                }
-                                }
-                            </td>
-                            <td style="width:10%">
-                                @item.Fecha.ToShortDateString()
-                            </td>
-                            <td style="width:10%">
-                                <button type="button" id="CodigoQueja" onclick="return verComentario('@item.CodigoQueja')" class="btn btn-secondary btn-sm btn-dt">Detalle</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <button type="button" id="btnExport" class="btn btn-default">
-            <i class="fa fa-table" aria-hidden="true"> </i> Exportar a Excel
-        </button>
+                }
+            </tbody>
+        </table>
     </div>
- 
+</div>
+<div class="col-md-12">
+    <button type="button" id="btnExport" class="btn btn-default">
+        <i class="fa fa-table" aria-hidden="true"> </i> Exportar a Excel
+    </button>
 </div>
 
 <!-- Modal -->
@@ -129,8 +166,8 @@
                 "order": [[2, "desc"]],
 
             });
-            Graficos();
-            setInterval(Graficos, 5000);
+            //Graficos();
+            //setInterval(Graficos, 5000);
 
 
             $('#btnExport').click(function () {
@@ -166,182 +203,5 @@
                 }
             });
         }
-
-
-        function Graficos() {
-            $.ajax({
-                url: "/sugerencias/Graficos/",
-                contentType: "application/json;charset=UTF-8",
-                dataType: "json",
-                type: "POST",
-                success: function (result) {
-                    if (result != 'undefined') {
-                        Highcharts.chart('container', {
-
-                            title: {
-                                text: 'Historicos Por meses'
-                            },
-
-                            subtitle: {
-                                text: 'Source: Paisas SAC 2018'
-                            },
-
-                            yAxis: {
-                                title: {
-                                    text: 'Quejas o Sugerencias'
-                                }
-                            },
-                            legend: {
-                                layout: 'vertical',
-                                align: 'right',
-                                verticalAlign: 'middle'
-                            },
-                            xAxis: {
-                                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                            },
-                            //plotOptions: {
-                            //    series: {
-                            //        label: {
-                            //            connectorAllowed: false
-                            //        },
-                            //        pointStart: 2010
-                            //    }
-                            //},
-
-                            series:
-                                [
-                            {
-                                name: 'Clientes',
-                                data: result[0]
-                              },
-                            {
-                                name: 'Empleados',
-                                data: result[1]
-                                    },
-                             {
-                                name: 'Proveedores',
-                                data: result[2]
-                              }, //{
-                                //    name: 'Sales & Distribution',
-                                //    data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-                                //}, {
-                                //    name: 'Project Development',
-                                //    data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-                                //}, {
-                                //    name: 'Other',
-                                //    data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-                                //
-                                    //}
-                                ],
-                            responsive: {
-                                rules: [{
-                                    condition: {
-                                        maxWidth: 500
-                                    },
-                                    chartOptions: {
-                                        legend: {
-                                            layout: 'horizontal',
-                                            align: 'center',
-                                            verticalAlign: 'bottom'
-                                        }
-                                    }
-                                }]
-                            }
-
-                        });
-                    }
-                },
-                error: function () {
-                    window.location.href = "@Url.Action("Login", "Login")";
-                }
-            });
-        }
-        //new Morris.Line({
-        //    // ID of the element in which to draw the chart.
-        //    element: 'myfirstchart',
-        //    // Chart data records -- each entry in this array corresponds to a point on
-        //    // the chart.
-        //    data: [
-        //        { year: '2008', value: 20 },
-        //        { year: '2009', value: 10 },
-        //        { year: '2010', value: 5 },
-        //        { year: '2011', value: 5 },
-        //        { year: '2012', value: 20 }
-        //    ],
-        //    // The name of the data record attribute that contains x-values.
-        //    xkey: 'year',
-        //    // A list of names of data record attributes that contain y-values.
-        //    ykeys: ['value'],
-        //    // Labels for the ykeys -- will be displayed when you hover over the
-        //    // chart.
-        //    labels: ['Value']
-        //});
-
-        //Highcharts.chart('container', {
-
-        //    title: {
-        //        text: 'Historicos Por mes'
-        //    },
-
-        //    subtitle: {
-        //        text: 'Source: Paisas SAC 2018'
-        //    },
-
-        //    yAxis: {
-        //        title: {
-        //            text: 'Quejas o Sugerencias'
-        //        }
-        //    },
-        //    legend: {
-        //        layout: 'vertical',
-        //        align: 'right',
-        //        verticalAlign: 'middle'
-        //    },
-        //    xAxis: {
-        //        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', /*'Sep', 'Oct', 'Nov', 'Dec'*/]
-        //    },
-        //    //plotOptions: {
-        //    //    series: {
-        //    //        label: {
-        //    //            connectorAllowed: false
-        //    //        },
-        //    //        pointStart: 2010
-        //    //    }
-        //    //},
-
-        //    series: [{
-        //        name: 'Clientes',
-        //        data: r
-        //    }, {
-        //        name: 'Empleados',
-        //        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-        //    }, {
-        //    //    name: 'Sales & Distribution',
-        //    //    data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-        //    //}, {
-        //    //    name: 'Project Development',
-        //    //    data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-        //    //}, {
-        //    //    name: 'Other',
-        //    //    data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-        //        //
-        //    }],
-
-        //    responsive: {
-        //        rules: [{
-        //            condition: {
-        //                maxWidth: 500
-        //            },
-        //            chartOptions: {
-        //                legend: {
-        //                    layout: 'horizontal',
-        //                    align: 'center',
-        //                    verticalAlign: 'bottom'
-        //                }
-        //            }
-        //        }]
-        //    }
-
-        //});
     </script>
 }

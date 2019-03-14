@@ -12,8 +12,8 @@ namespace SAC.Models.Resoluciones
         public int Id_Comentario { get; set; }
         public int Id_Caso { get; set; }
         public int Codigo_Observador { get; set; }
-        public int Comentario { get; set; }
-        public int Fecha_Comentario { get; set; }
+        public string Comentario { get; set; }
+        public DateTime Fecha_Comentario { get; set; }
     }
 
     public class Comentarios_vista
@@ -23,7 +23,8 @@ namespace SAC.Models.Resoluciones
         public int Id_Caso { get; set; }
         public int Codigo_Observador { get; set; }
         public string Observador { get; set; }
-        public int Comentario { get; set; }
-        public int Fecha_Comentario { get; set; }
+        public string Comentario { get; set; }
+        public string Img { get; set; }
+        public DateTime Fecha_Comentario { get; set; }
     }
 }

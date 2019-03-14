@@ -24,10 +24,13 @@ namespace SAC.Models
         public virtual DbSet<Resoluciones_Historico> Resoluciones_Historico { get; set; }
         public virtual DbSet<Comentarios_Casos> Comentarios_Casos { get; set; }
         public virtual DbSet<Casos_Usuarios> Casos_Usuarios { get; set; }
+        public virtual DbSet<TiposQuejas> TiposQuejas { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
         }
+
+        public System.Data.Entity.DbSet<SAC.Models.Resoluciones.Comentarios_vista> Comentarios_vista { get; set; }
     }
 }

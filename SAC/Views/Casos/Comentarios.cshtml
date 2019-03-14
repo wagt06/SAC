@@ -1,0 +1,77 @@
+﻿@model List<SAC.Models.Resoluciones.Comentarios_vista>
+@{
+    int Count = 0;
+    int Caso = 0;
+    int UserAnterior = 0; //mostrar Comentarios ordenados
+    int Roll = (int)ViewData["Roll"];
+}
+<h3 style="text-overflow: ellipsis;">Comentario de los Observadores</h3>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading"><i class="fa fa-users" aria-hidden="true"></i> Comentarios</div>
+    <div id="comentarios_scroll" class="panel-body pre-scrollable" style="min-height:65vh;font-size:12px">
+
+        @foreach (var c in Model)
+        {
+            if (!c.Comentario.IsEmpty())
+            {
+
+
+                if (UserAnterior != c.Codigo_Observador) {
+                    Count = Count + 1;
+                }
+                UserAnterior = c.Codigo_Observador;
+                Caso = c.Id_Caso;
+
+                string Class = (Count % 2) != 0 ? "media-left" : "media-right pull-right";
+                string align = (Count % 2) != 0 ? "" : "text-right";
+
+                <div class="media" style="margin:0px;padding:0px;">
+                    <div class="@Class">
+                        <a href="#">
+                            <img class="media-object" src="@c.Img"  style="width:4em" alt="">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading @align" style="color:dimgray">@c.Observador</h4>
+                        <p class="@align" style="border-radius: 5px;background-color:#f8f8f8;padding: 5px;">
+                            <span class="row">@c.Fecha_Comentario</span>
+                            @c.Comentario
+                        </p>
+                    </div>
+                </div>
+            }
+
+        }
+    </div>
+
+    <div class="panel-footer">
+        <form id="frmComentarios" method="post" action="~/Casos/GuardarComentarios">
+            <div class="form-group">
+                    <input type="text" value="@Caso" id="Id_Caso" name="Id_Caso" class="hidden" />
+                    <input type="text" value="1" id="Codigo_Observador" name="Codigo_observador" class="hidden" />
+                    <div class="row">
+                        @if (Roll == 2)
+                        {
+                            <div class="input-group">
+                                <input type="text" name="Comentario" class="form-control" id="Comentario" placeholder="Ingrese su comentario!">
+                                <span class="input-group-btn">
+                                    <input type="submit" data-ajax="true"
+                                           OnBegin="onAjaxBegin"
+                                           OnComplete="onAjaxComplete"
+                                           data-ajax-failure="failed"
+                                           value="Enviar"
+                                           name="Submit"
+                                           class="btn btn btn-success" />
+                                </span>
+                            </div>
+
+                        }
+                    </div>
+                <div id="Results"></div>
+
+                @*<span class="text-info">Vas a comentar como: <strong>@Model.Where(x => x.Id_Usuario == Model._Caso.Codigo_Responsable).FirstOrDefault().Usuario</strong></span>*@
+            </div>
+        </form>
+    </div>
+</div>

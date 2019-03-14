@@ -18,10 +18,11 @@ namespace SAC.Models.Resoluciones
     public class Casos_Usuarios_vista
     {
         [Key]
-        public int Id_Caso_Usuario { get; set; }
-        public int Id_Caso { get; set; }
-        public int Id_Usuario { get; set; }
+        public int? Id_Caso_Usuario { get; set; }
+        public int? Id_Caso { get; set; }
+        public int? Id_Usuario { get; set; }
         public string Usuario { get; set; }
-        public int Id_Rol { get; set; }
+        public bool? Select { get; set; }
+        public int? Id_Rol { get; set; }
     }
 }

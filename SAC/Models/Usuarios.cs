@@ -14,5 +14,7 @@ namespace SAC.Models
         public string Usuario { get; set; }
         public string Correo { get; set; }
         public string Contraseña { get; set; }
+        public string Img { get; set; }
+        public int  Roll { get; set; }
     }
 }

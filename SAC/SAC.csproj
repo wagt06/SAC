@@ -157,6 +157,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CasosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IndicadoresController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SugerenciasController.cs" />
     <Compile Include="Global.asax.cs">
@@ -172,6 +173,8 @@
     <Compile Include="Models\Resoluciones\Comentarios_Casos.cs" />
     <Compile Include="Models\Resoluciones\Estados_Casos.cs" />
     <Compile Include="Models\Resoluciones\Resoluciones_Historico.cs" />
+    <Compile Include="Models\TiposQuejas.cs" />
+    <Compile Include="Models\UploadFilesResult.cs" />
     <Compile Include="Models\Usuarios.cs" />
     <Compile Include="Models\Quejas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -196,12 +199,15 @@
     <Content Include="Content\img\correocontactos.png" />
     <Content Include="Content\img\icons8-binoculars-480.png" />
     <Content Include="Content\img\icons8-briefcase-480.png" />
+    <Content Include="Content\img\icons8-invitado-masculino-48.png" />
     <Content Include="Content\img\icons8-mailbox-480.png" />
     <Content Include="Content\img\icons8-scroll-480.png" />
+    <Content Include="Content\img\invitado.png" />
     <Content Include="Content\img\logo_paisas.svg" />
     <Content Include="Content\img\logopaisas.png" />
     <Content Include="Content\newletters\blog-stories.html" />
     <Content Include="Content\newletters\Cliente-email-contacto.html" />
+    <Content Include="Content\Site_Panel.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -217,7 +223,12 @@
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.form.min.js" />
+    <Content Include="Scripts\jquery.form.min.js.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -246,9 +257,17 @@
     <Content Include="Views\login\Login.cshtml" />
     <Content Include="Views\Casos\Resolucion.cshtml" />
     <Content Include="Views\Casos\Index.cshtml" />
+    <Content Include="Views\Shared\_Panel_Layout.cshtml" />
+    <Content Include="Views\Casos\Comentarios.cshtml" />
+    <Content Include="Views\Home\Panel.cshtml" />
+    <Content Include="Views\login\Edit.cshtml" />
+    <Content Include="Views\login\index.cshtml" />
+    <Content Include="Views\login\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img\Users\" />
+    <Folder Include="Views\Indicadores\" />
     <Folder Include="Views\Resoluciones\" />
   </ItemGroup>
   <ItemGroup>

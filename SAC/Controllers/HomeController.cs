@@ -27,5 +27,12 @@ namespace SAC.Controllers
 
             return View();
         }
+
+        public ActionResult Panel()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
     }
 }

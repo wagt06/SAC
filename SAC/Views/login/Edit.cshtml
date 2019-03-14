@@ -1,0 +1,100 @@
+﻿@model SAC.Models.Usuarios
+
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Panel_Layout.cshtml";
+}
+
+
+
+<div class="col-md-6">
+    <div class="row">
+        <h2>Informacion del Usuario</h2>
+        <div class="col-md-12">
+
+            @*@using (Html.BeginForm("Edit", "Login", FormMethod.Post, new { id = "frm-Usuarios" }))
+            {*@
+            <form action="~/Login/Edit" method="post">
+                @Html.AntiForgeryToken()
+                <a href="#">
+                    <img class="img-thumbnail img-responsive" id="Img" style="height:150px" src="@Model.Img" alt="...">
+                </a>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <input type="text" name="Usuario.CodigoUsuario" id="Usuario.CodigoUsuario" class="hide" value="@Model.CodigoUsuario" />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label" })
+                    <input class="form-control" type="text" name="Usuario.Usuario" id="Usuarios.Usuario" value="@Model.Usuario" />
+                    @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label" })
+                    <input class="form-control" type="email" name="Usuario.Correo" id="Usuarios.Correo" value="@Model.Correo" />
+                    @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label" })
+                    <input class="form-control" type="password" name="Usuario.Contraseña" id="Usuarios.Contraseña" value="@Model.Contraseña"   aria-describedby="basic-addon2"/>
+                    @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Repita Contraseña</label>
+                    <input class="form-control" type="password" value="@Model.Contraseña"  aria-describedby="basic-addon2" />
+                </div>
+                <input class="hide UsuarioImg" type="text" id="UsuarioImg" name="Usuario.Img" value="@Model.Img" />
+                <label for="exampleInputFile">Imagen del Perfil</label>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="file" id="fileupload" class=form-control>
+
+                        <button class="btn btn-info" onclick="uploadFile()" type="button">Subir</button>
+                    </div>
+                    <div class="form-group">
+                        <p class="help-block">Seleccione una Imagen para foto de Perfil</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" data-ajax="true" value="Guardar" class="btn btn-default" />
+                </div>
+            </form>
+            @*}*@
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6">
+
+</div>
+
+
+@section scripts{
+          <script type="text/javascript">
+              $(document).ready(function () {
+
+    
+              });
+
+              function uploadFile() {
+                  var blobFile = $('#fileupload')['0'].files['0'];
+                  var formData = new FormData();
+                  formData.append("fileupload", blobFile);
+
+                  $.ajax({
+                      url: '/Login/GuardarRutaImg/?Codigo=@Model.CodigoUsuario',
+                      type: "POST",
+                      data: formData,
+                      processData: false,
+                      contentType: false,
+                      success: function (response) {
+                          $('#UsuarioImg').val(response[0].Name);
+                          $('#Img')[0].src = response[0].Name;
+                      },
+                      error: function (jqXHR, textStatus, errorMessage) {
+                          console.log(errorMessage); // Optional
+                      }
+                  });
+              }
+            </script>
+}
+

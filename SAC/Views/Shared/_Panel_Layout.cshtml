@@ -1,0 +1,212 @@
+﻿@{ 
+    HttpCookie _UserInfo = Request.Cookies["UserInfo"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Los Paisas</title>
+
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+
+    <link href="~/Content/css/chosen.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site_Panel.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive-slider.css" rel="stylesheet">
+    <link href="~/Content/css/animate.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+    <link href="https://cdn.datatables.net/buttons/1.5.4/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto" rel="stylesheet">
+
+
+
+</head>
+<body>
+    @*<div class="side-menu " style="z-index:100">
+        <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <div class="brand-wrapper">
+                    <!-- Hamburger -->
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Brand -->
+                    <div class="brand-name-wrapper">
+
+                        <a class="navbar-brand" href="#">
+                            LOS PAISAS
+                        </a>
+                    </div>
+                    <!-- Search -->
+                    <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </a>
+                    <!-- Search body -->
+                    <div id="search" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form class="navbar-form" role="search">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search">
+                                </div>
+                                <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-ok"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center" style="margin:1em auto 1em auto">
+                        <div class="col-md-12">
+                            <img class="img-thumbnail" style="width:100px" src="@_UserInfo["img"]" />
+                        </div>
+                        <span>Usuario:<a href="~/Login/Edit/?Usuario=@_UserInfo["Codigo"]"> @System.Web.HttpContext.Current.User.Identity.Name</a></span>
+                        <a class="btn-block btn-link" href="~/Login/Delete/?id=1">Cerrar Sesion</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Main Menu -->
+            <div class="side-menu-container">
+                <ul class="nav navbar-nav">
+                    <li><a href="~/Home/Panel"><span class="glyphicon glyphicon-cloud"></span> Panel </a></li>
+                    <li><a href="~/Sugerencias/Index"><span class="glyphicon glyphicon-plane"></span> Sugerencias  <span id="Sugerencias" class="badge pull-right">0</span> </a></li>
+                    <li><a href="~/casos/index"><span class="glyphicon glyphicon-send"></span> Mis casos  <span id="Casos" class="badge success pull-right bg-success">0</span> </a></li>
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-lvl2">
+                            <span class="glyphicon glyphicon-off"></span> Usuarios <span class="caret"></span>
+                        </a>
+                        <div id="dropdown-lvl2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="~/Login/index">Todos</a></li>
+                                    <li><a href="~/Login/Edit/?Usuario=@_UserInfo["Codigo"]">Nuevo</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="~/Login/index"><span class="glyphicon glyphicon-send"></span> Configuraciones <span class="badge success pull-right"></span> </a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </div>*@
+
+    <nav class="navbar navbar-default sidebar" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+                <div class="col-md-12 text-center" style="margin:1em auto 1em auto">
+                    <h3 style="font-style:oblique"><strong>SAC</strong></h3>
+                    <h4>Los Paisas</h4>
+                    <div class="col-md-12">
+                        <img class="img-thumbnail" style="width:100px" src="@_UserInfo["img"]" />
+                    </div>
+                    <span>Usuario:<a href="~/Login/Edit/?Usuario=@_UserInfo["Codigo"]"> @System.Web.HttpContext.Current.User.Identity.Name</a></span>
+                    <a class="btn-block btn-link" href="~/Login/Delete/?id=1">Cerrar Sesion</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="~/Home/Panel">Panel<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+                    <li><a href="~/Sugerencias/Index">Sugerencias  <span id="Sugerencias" class="badge">0</span> <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
+                    <li><a href="~/casos/index">Mis Casos <span id="Casos" class="badge">0</span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a> </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
+                        <ul class="dropdown-menu forAnimate" role="menu">
+                            <li><a href="~/Login/index">Todos</a></li>
+                            <li><a href="~/Login/Edit/?Usuario=@_UserInfo["Codigo"]">Nuevo</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Informes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="col-md-10">
+        @RenderBody()
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script src="~/Scripts/js/wow.min.js"></script>
+    <script src="~/Scripts/js/smooth-scroll.polyfills.js"></script>
+    <script src="~/js/smooth-scroll.polyfills.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+
+
+    @RenderSection("scripts", required: false)
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('.navbar-toggle').click(function () {
+                $('.navbar-nav').toggleClass('slide-in');
+                $('.side-body').toggleClass('body-slide-in');
+                $('#search').removeClass('in').addClass('collapse').slideUp(200);
+
+                /// uncomment code for absolute positioning tweek see top comment in css
+                //$('.absolute-wrapper').toggleClass('slide-in');
+
+            });
+
+            // Remove menu for searching
+            $('#search-trigger').click(function () {
+                $('.navbar-nav').removeClass('slide-in');
+                $('.side-body').removeClass('body-slide-in');
+
+                /// uncomment code for absolute positioning tweek see top comment in css
+                //$('.absolute-wrapper').removeClass('slide-in');
+
+            });
+
+            Indicadores();
+        });
+
+
+        function Indicadores() {
+            $.ajax({
+                url: "/Indicadores/ListaIndicadores",
+                data: { CodigoUsuario: @_UserInfo["Codigo"] , CodigoRoll: @_UserInfo["Roll"] },
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                type: "GET",
+                success: function (result) {
+                    if (result != 'undefined') {
+                        $("#Sugerencias").html(result[0].Value);
+                        $("#Casos").html(result[1].Value);
+                    } else {
+
+                        // $("#alerta-correo").fadeOut(3500);
+                    }
+                    // $("#risultato").html(msg);
+                    //clearForm("#frmSugerencia");
+                },
+                error: function (result) {
+                },
+                complete: function (result) {
+                }
+
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SAC.Models.Usuarios>
+
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_Panel_Layout.cshtml";
+}
+
+<h2 class="text-info">Usuarios</h2>
+
+<p>
+    <a href="~/Login/Edit/?Usuario=0">Nuevo</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contraseña)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Img)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Correo)
+        </td>
+        <td>
+            @{
+                var Resultado = "";
+                foreach (var x in item.Contraseña)
+                {
+                    Resultado = Resultado + "*";
+                }
+
+            }
+            @Resultado.ToString()
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Img)
+        </td>
+        <td>
+            <a href="~/Login/Details/?Usuario=@item.CodigoUsuario">Ver</a> |
+            <a href="~/Login/Edit/?Usuario=@item.CodigoUsuario">Edit</a>
+        </td>
+    </tr>
+}
+
+</table>

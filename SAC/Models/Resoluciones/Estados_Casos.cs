@@ -12,5 +12,6 @@ namespace SAC.Models.Resoluciones
         public int Codigo_Estado { get; set; }
         public string Nombre_Estado { get; set; }
         public Boolean  Activo { get; set; }
+        public Boolean Escierre { get; set; }
     }
 }

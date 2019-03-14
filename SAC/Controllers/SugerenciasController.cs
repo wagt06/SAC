@@ -29,10 +29,10 @@ namespace SAC.Controllers
 
             List<Models.Quejas> Quejas = new List<Models.Quejas>();
             using (var db = new Models.dbModel()) {
+
                 Quejas = db.Quejas.OrderByDescending(x => x.Fecha).ToList();
+                ViewBag.Estados = db.Estados_Casos.ToList();
             }
-            var r = Graficos();
-            ViewBag.Graficos = r;
             return View(Quejas);
         }
 
@@ -47,8 +47,6 @@ namespace SAC.Controllers
             using (var db = new Models.dbModel()) {
                 q = db.Quejas.Where(x => x.CodigoQueja == id).First();
             }
-
-            var r = Graficos();
             return Json(q, JsonRequestBehavior.AllowGet);
         }
 
@@ -56,11 +54,14 @@ namespace SAC.Controllers
         public ActionResult Create()
         {
             List<Models.Area> areas = new List<Models.Area>();
+            List<Models.TiposQuejas> tipos = new List<Models.TiposQuejas>();
             using (var db = new Models.dbModel())
             {
                 areas = db.Area.Where(A => A.Activo == true).ToList();
+                tipos = db.TiposQuejas.Where(t => t.Activo == true).ToList();
             }
             ViewBag.Areas = areas;
+            ViewBag.Tipos = tipos;
             return View(new Models.Quejas());
         }
 
@@ -79,25 +80,9 @@ namespace SAC.Controllers
                     Quejas.Fecha = DateTime.Now;
                     db.Quejas.Add(Quejas);
                     db.SaveChanges();
-                    var Area = db.Area.Where(x => x.CodigoArea == Quejas.CodigoDepartamento).FirstOrDefault();
-                    var Tipo = string.Empty;
-                    if (Quejas.CodigoTipo == 1) {
-                        Tipo = "Cliente";
-                    }
-                    else if (Quejas.CodigoTipo == 2) {
-                        Tipo = "Proveedor";
-                    }
-                    else {
-                        Tipo = "Trabajador";
-                    }
-                    //CuerpoCorreo = string.Format(@"<strong> Cliente: </strong> {0} <br>
-                    //                              <strong> Tipo de Queja: </strong> : {1} <br>
-                    //                              <strong> Area Afectada : </strong> {2} <br>
-                    //                              <strong> Mensaje: </strong> {3} <br>
-                    //                              Este correo fue enviado desde el sitio WEB Formulario Quejas ", Quejas.Empleado,Tipo,Area.NombreArea, Quejas.Queja);
+
 
                     CuerpoCorreo = PopulateBody(Quejas);
-
                     EnviarCorreo("Sugerencia Desde Sitio WEB", "info@paisas.club", "Correo Generado API Quejas", CuerpoCorreo, "No APlica", 2);
                     return Redirect("~/home/index?sugerencia=1");
                 }
@@ -108,7 +93,6 @@ namespace SAC.Controllers
             }
         }
 
-
         private string PopulateBody(Models.Quejas Quejas)
         {
             string body = string.Empty;
@@ -117,22 +101,13 @@ namespace SAC.Controllers
                 body = reader.ReadToEnd();
             }
             string Area;
+            string Tipo;
+
             using (var db = new Models.dbModel()) {
                 Area = db.Area.Where(x => x.CodigoArea == Quejas.CodigoDepartamento).FirstOrDefault().NombreArea;
+                Tipo = db.TiposQuejas.Where(x => x.CodigoTipoQueja == Quejas.CodigoTipo).FirstOrDefault().Descripcion;
             }
-            var Tipo = string.Empty;
-            if (Quejas.CodigoTipo == 1)
-            {
-                Tipo = "Cliente";
-            }
-            else if (Quejas.CodigoTipo == 2)
-            {
-                Tipo = "Proveedor";
-            }
-            else
-            {
-                Tipo = "Trabajador";
-            }
+           
 
             body = body.Replace("{{Nombre}}", Quejas.Empleado);
             body = body.Replace("{{Area}}", Area);
@@ -154,8 +129,6 @@ namespace SAC.Controllers
             body = body.Replace("{{Mensaje}}", mensaje);
             return body;
         }
-
-
 
         // GET: Sugerencias/Edit/5
         public ActionResult Edit(int id)
@@ -259,66 +232,6 @@ namespace SAC.Controllers
                 throw;
             }
 
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Graficos() {
-
-            List<int[]> Graficos = new List<int[]>();
-            using (var db = new Models.dbModel()) {
-
-                var r = db.Database.SqlQuery<Models.Graficos>("SELECT COUNT(MONTH(q.Fecha))Value,CONVERT(NVARCHAR,MONTH(q.Fecha)) Name FROM dbo.Quejas q Where CodigoTipo = 1 AND  YEAR(q.Fecha) = YEAR(getDATE())  GROUP BY MONTH(q.Fecha)", 1).ToList();
-                var e = db.Database.SqlQuery<Models.Graficos>("SELECT COUNT(MONTH(q.Fecha))Value,CONVERT(NVARCHAR,MONTH(q.Fecha)) Name FROM dbo.Quejas q Where CodigoTipo = 2 AND   YEAR(q.Fecha) = YEAR(getDATE())  GROUP BY MONTH(q.Fecha)", 2).ToList();
-                var p = db.Database.SqlQuery<Models.Graficos>("SELECT COUNT(MONTH(q.Fecha))Value,CONVERT(NVARCHAR,MONTH(q.Fecha)) Name FROM dbo.Quejas q Where CodigoTipo = 3 AND   YEAR(q.Fecha) = YEAR(getDATE())  GROUP BY MONTH(q.Fecha)", 3).ToList();
-                var meses = 0;
-                int[] list1, list2, list3;
-                list1 = new int[12]; //Clientes
-                list2 = new int[12]; //Empleados
-                list3 = new int[12]; //Proveedores
-
-                while (meses <= 11) {
-                    meses = meses + 1;
-                    list1[meses - 1] = 0;
-                    foreach (var i in r)
-                    {
-                        if (meses == int.Parse(i.Name)) {
-                            list1[meses - 1] = i.Value;
-                        }
-                    }
-                }
-                meses = 0;
-                while (meses <= 11)
-                {
-                    meses = meses + 1;
-                    list2[meses - 1] = 0;
-                    foreach (var i in e)
-                    {
-                        if (meses == int.Parse(i.Name))
-                        {
-                            list2[meses - 1] = i.Value;
-                        }
-                    }
-                }
-                meses = 0;
-                while (meses <= 11)
-                {
-                    meses = meses + 1;
-                    list3[meses - 1] = 0;
-                    foreach (var i in p)
-                    {
-                        if (meses == int.Parse(i.Name))
-                        {
-                            list3[meses - 1] = i.Value;
-                        }
-                    }
-                }
-                Graficos.Add(list1);
-                Graficos.Add(list2);
-                Graficos.Add(list3);
-            }
-            // string consulta = "SELECT COUNT(MONTH(q.Fecha))Cant,MONTH(q.Fecha) mes FROM dbo.Quejas q   GROUP BY MONTH(q.Fecha)";
-            return Json(Graficos, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ExportSugerencias()
