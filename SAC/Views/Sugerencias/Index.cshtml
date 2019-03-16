@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SAC.Models.Quejas>
+﻿@model IEnumerable<SAC.Models.QuejasVista>
 
 @{
     Layout = "~/Views/Shared/_Panel_Layout.cshtml";
@@ -7,45 +7,48 @@
 
 
 <div class="container-fluid">
-    <div class="col-md-12" style="padding-top:1em">
         <h2><strong>Quejas y sugerencias</strong></h2>
-        <form action="~/Casos/Index" method="get">
+        <form action="~/Sugerencias/Index" method="get">
             <div class="form-inline text-center">
-
-                <div class="form-group text-left">
-                    <label >Fecha Inicial:</label>
-                    <br />
-                    <input type="date" name="FechaIni" id="FechaIni" value="@DateTime.UtcNow.AddDays(-30).ToString("yyyy-MM-dd")" class="form-control" />
+                <div class="col-sm-4 col-xs-6">
+                    <div class="form-group text-left">
+                        <label>Fecha Inicial:</label>
+                        <br />
+                        <input type="date" name="FechaInicio" id="FechaInicio" value="@DateTime.UtcNow.AddDays(-30).ToString("yyyy-MM-dd")" class="form-control" />
+                    </div>
                 </div>
-                <div class="form-group text-left" style="margin-left:2em">
-                    <label>Fecha Final:</label>
-                    <br />
-                    <input type="date" name="FechaFin:" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                <div class="col-sm-4 col-xs-6">
+                    <div class="form-group text-left" style="margin-left:2em">
+                        <label>Fecha Final:</label>
+                        <br />
+                        <input type="date" name="fechaFin" id="fechaFin" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                    </div>
                 </div>
-                <div class="form-group text-left" style="padding-left:2em">
-                    <label class="">Estado</label>
-                    <br />
-                    <select class="form-control" name="Estado">
-                        <option value="0" selected>-- Todos --</option>
-                        @foreach (SAC.Models.Resoluciones.Estados_Casos e in ViewBag.Estados)
-                        {
-                            var Selected = e.Codigo_Estado == 0 ? "selected" : "";
+                <div class="col-sm-4 col-xs-12">
+                    <div class="form-group text-left">
+                        <label class="">Estado</label>
+                        <br />
+                        <select class="form-control width-80" name="Estado">
+                            <option value="0" selected>-- Todos --</option>
+                            @foreach (SAC.Models.Resoluciones.Estados_Casos e in ViewBag.Estados)
+                            {
+                                var Selected = e.Codigo_Estado == 0 ? "selected" : "";
 
-                            <option value="@e.Codigo_Estado" @Selected>@e.Nombre_Estado</option>
-                        }
+                                <option value="@e.Codigo_Estado" @Selected>@e.Nombre_Estado</option>
+                            }
 
-                    </select>
-                    <input data-ajax="true" type="submit" class="btn btn-info" value="Filtar" />
+                        </select>
+                            <input data-ajax="true" type="submit" class="btn btn-info" value="Filtar" />
+                    </div>
                 </div>
 
             </div>
         </form>
     </div>
-</div>
 <br />
 <br />
 <div class="col-md-12">
-    <div class="table-responsive">
+    <div class="table-condensed">
         <table class="table table-condensed display" id="table-sugerencias">
             <thead>
                 <tr class="cabecera">
@@ -58,44 +61,78 @@
                     <th>
                         Fecha
                     </th>
+                    <th>
+                        Estado
+                    </th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td style="width:20%">
-                            @Html.DisplayFor(modelItem => item.Empleado)
-                        </td>
-                        <td>
-                            @{
-                                if (item.Queja.Length > 60)
-                                {
-                                    @item.Queja.Substring(0, 60);
+                      <tr>
+                            <td style="width:20%">
+                                @Html.DisplayFor(modelItem => item.Empleado)
+                            </td>
+                            <td>
+                                @{
+                                    if (item.Queja.Length > 60)
+                                    {
+                                        @item.Queja.Substring(0, 60);
+                                    }
+                                    else
+                                    { @item.Queja.ToString();
                                 }
-                                else
-                                { @item.Queja.ToString();
-                            }
-                            }
-                        </td>
-                        <td style="width:10%">
-                            @item.Fecha.ToShortDateString()
-                        </td>
-                        <td style="width:30%">
-                            <button type="button" id="CodigoQueja" onclick="return verComentario('@item.CodigoQueja')" class="btn btn-secondary btn-sm btn-dt">Detalle</button>
-                            <a href="~/Casos/Create/?codigo=@item.CodigoQueja" class="btn btn-primary btn-sm">Crear Caso</a>
-                            @*<div class="btn-group" role="group">
-                                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                   Ir al Caso
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Dropdown link</a></li>
-                                </ul>
-                            </div>*@
-                        </td>
-                    </tr>
+                                }
+                            </td>
+                            <td style="width:10%">
+                                @item.Fecha.ToShortDateString()
+                            </td>
+                            <td style="width:10%">
+                                @*@{ string estado = "";
+                                   Boolean EstadoFinal = false;
+                                    foreach (SAC.Models.Resoluciones.Estados_Casos e in ViewBag.Estados)
+                                    {
+                                        if (item.CodigoEstado == e.Codigo_Estado)
+                                        {
+                                            estado = e.Nombre_Estado;
+                                            EstadoFinal = e.Escierre;
+                                        }
+                                    }
+                                }*@
+                                <span class="label label-primary"> @item.EstadoNombre</span> 
+                            </td>
+                            <td style="width:30%">
+                                <button type="button" id="CodigoQueja" onclick="return verComentario('@item.CodigoQueja')" class="btn btn-secondary btn-sm btn-dt">Detalle</button>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Caso
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @{
+                                            foreach (SAC.Models.Resoluciones.Casos e in ViewBag.Casos)
+                                            {
+                                                if (item.CodigoQueja == e.Codigo_Queja)
+                                                {
+                                                    <li>
+                                                        <a href="~/Casos/Resolucion/?Caso=@e.Id_Caso">
+                                                            Caso: @e.Id_Caso Resp.: @e.NombreResponsable
+                                                            <span class="label label-primary"> @e.NombreEstado </span>
+                                                        </a>
+                                                    </li>
+                                                }
+
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                                @if (Models.Commons.FrontUser.TienePermiso(Models.Commons.RolesPermisos.Crear_Casos))
+                                {
+                                    <a href="~/Casos/Create/?codigo=@item.CodigoQueja" class="btn btn-primary btn-sm">Crear Caso</a>
+                                }
+                                </td>
+                     </tr>
                 }
             </tbody>
         </table>

@@ -35,8 +35,18 @@ namespace SAC.Controllers
 
         public ActionResult Create(int codigo) {
             var caso = new Models.Resoluciones.Casos();
+            
             using (var db = new  Models.dbModel()) {
-                var sugerencia = db.Quejas.Where(x => x.CodigoQueja == codigo).FirstOrDefault();
+
+                var sugerencia = (db.Quejas.Where(x => x.CodigoQueja == codigo).FirstOrDefault());
+
+                //caso = (from c in db.Casos
+                //        join e in db.Estados_Casos.Where(x=>x.Escierre == false ) on c.Codigo_Estado equals e.Codigo_Estado 
+                //        select new Models.Resoluciones.Casos {
+                //            Id_Caso = c.Id_Caso
+                //        }).FirstOrDefault();
+
+
                 if (sugerencia != null) {
 
                     caso.Codigo_Queja = sugerencia.CodigoQueja;
@@ -50,6 +60,7 @@ namespace SAC.Controllers
                 }
                
             }
+
             return Redirect("~/Casos/Resolucion/?Caso=" + caso.Id_Caso);
         }
 
@@ -62,9 +73,12 @@ namespace SAC.Controllers
             using (var db = new Models.dbModel())
             {
                 _Caso._Caso = db.Casos.Where(x => x.Id_Caso == Caso).FirstOrDefault();
+
                 if (_Caso._Caso.Codigo_Responsable != 0) {
+
                     _Caso._Responsable = db.Usuarios.Where(x => x.CodigoUsuario == _Caso._Caso.Codigo_Responsable).FirstOrDefault().Usuario;
                 }
+
                 _Caso._Areas = db.Area.ToList();
                 _Estados = db.Estados_Casos.ToList();
 

@@ -15,6 +15,7 @@ nav.sidebar, .main {
 
 @media (min-width: 765px) {
 
+
     .main {
         position: absolute;
         width: calc(100% - 40px);
@@ -103,6 +104,12 @@ nav.sidebar, .main {
         nav.sidebar .forAnimate {
             opacity: 1;
         }
+}
+
+@media(max-width:425px) {
+    .width-80 {
+        width: 80% !important
+    }
 }
 
 nav.sidebar .navbar-nav .open .dropdown-menu > li > a:hover, nav.sidebar .navbar-nav .open .dropdown-menu > li > a:focus {

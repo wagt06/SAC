@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SAC.Tags;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -21,6 +22,7 @@ namespace SAC.Controllers
                 return View(Lista);
         }
 
+        [NoLoginAttribute]
         public ActionResult Login()
         {
             return View();
@@ -43,9 +45,17 @@ namespace SAC.Controllers
                     _User_Info["img"] = _usuario.Img;
                     _User_Info["Codigo"] = _usuario.CodigoUsuario.ToString();
                     _User_Info["Roll"] = 1.ToString();
+                   
+                   var  rm = _usuario.Autenticarse();
+
+                    if (rm.response)
+                    {
+                        rm.href = Url.Content("~/home");
+                    }
+
                     Response.Cookies.Add(_User_Info);
                     //Response.Cookies["Usuario"].Expires = DateTime.Now.AddDays(100);
-                    FormsAuthentication.SetAuthCookie(Usuario, false);
+                    //FormsAuthentication.SetAuthCookie(Usuario, false);
                     return Json(1);
                 }
             }

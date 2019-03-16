@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -13,12 +14,19 @@ namespace SAC.Models.Resoluciones
 
         public int Codigo_Queja { get; set; }
         public int Codigo_Responsable { get; set; }
+
+        [NotMapped]
+        public virtual  string NombreResponsable { get; set; }
+
         public int CodigoTipo { get; set; }
         public int CodigoDepartamento { get; set; }
         public string Comentario { get; set; }
         public DateTime Fecha_Creacion { get; set; }
         public DateTime Fecha_Modificacion { get; set; }
         public int Codigo_Estado { get; set; }
+
+        [NotMapped]
+        public virtual string NombreEstado{ get; set; }
 
     }
 

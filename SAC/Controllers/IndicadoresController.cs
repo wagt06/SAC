@@ -37,10 +37,8 @@ namespace SAC.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ActionResult Graficos()
         {
-
             List<int[]> Graficos = new List<int[]>();
             using (var db = new Models.dbModel())
             {

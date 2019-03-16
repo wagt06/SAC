@@ -18,7 +18,7 @@ namespace SAC.Controllers
     {
         // GET: Sugerencias
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(DateTime? FechaInicio, DateTime? fechaFin, int? Estado)
         {
 
             if (Request.Cookies["Usuario"] != null) {
@@ -27,12 +27,68 @@ namespace SAC.Controllers
 
             var session = HttpContext.Request.Cookies["Usuario"];
 
-            List<Models.Quejas> Quejas = new List<Models.Quejas>();
+            List<Models.QuejasVista> Quejas = new List<Models.QuejasVista>();
             using (var db = new Models.dbModel()) {
 
-                Quejas = db.Quejas.OrderByDescending(x => x.Fecha).ToList();
-                ViewBag.Estados = db.Estados_Casos.ToList();
+                //Quejas = db.Quejas.OrderByDescending(x => x.Fecha).ToList();
+
+                if (Estado == 0) {
+
+                  
+                    Quejas = (from q in db.Quejas.Where(x => x.Fecha >= FechaInicio && x.Fecha <= FechaInicio)
+                              join e in db.Estados_Casos
+                              on q.CodigoTipo equals e.Codigo_Estado
+                              select new Models.QuejasVista
+                              {
+                                  CodigoQueja = q.CodigoQueja,
+                                  Queja = q.Queja,
+                                  Fecha = q.Fecha,
+                                  CodigoEstado = q.CodigoEstado,
+                                  EstadoNombre = e.Nombre_Estado,
+                                  IsCierre = e.Escierre
+                              }).ToList();
+                }
+                else {
+
+                    Quejas = (from q in db.Quejas.Where(x=>x.Fecha >= FechaInicio && x.Fecha <= FechaInicio && x.CodigoEstado == Estado)
+                              join e in db.Estados_Casos
+                              on q.CodigoTipo equals e.Codigo_Estado
+                              select new Models.QuejasVista
+                              {
+                                  CodigoQueja = q.CodigoQueja,
+                                  Queja = q.Queja,
+                                  Fecha = q.Fecha,
+                                  CodigoEstado = q.CodigoEstado,
+                                  EstadoNombre = e.Nombre_Estado,
+                                  IsCierre = e.Escierre
+                              }).ToList();
+                }
+                
+                var Estados = db.Estados_Casos.ToList();
+                var Usuarios = db.Usuarios.ToList();
+                var casos = (from c in db.Casos 
+                                 join q in db.Quejas on c.Codigo_Queja equals q.CodigoQueja
+                                select c ).ToList();
+
+                var casos1 = (from c in casos
+                              join e in Estados on c.Codigo_Estado equals e.Codigo_Estado
+                              join u in Usuarios on c.Codigo_Responsable equals u.CodigoUsuario into gj
+                              from subpet in gj.DefaultIfEmpty()
+                              select new Models.Resoluciones.Casos
+                              {
+                                  Codigo_Queja = c.Codigo_Queja,
+                                  Id_Caso = c.Id_Caso,
+                                  Codigo_Responsable = c.Codigo_Responsable,
+                                  NombreResponsable = subpet != null ? (subpet.Usuario != null ? subpet.Usuario : "No Asignado") : "No Asignado",
+                                  Codigo_Estado = c.Codigo_Estado,
+                                  NombreEstado = e.Nombre_Estado
+                              }
+                              ).ToList();
+
+                ViewBag.Casos = casos1;
+                ViewBag.Estados = Estados;
             }
+
             return View(Quejas);
         }
 

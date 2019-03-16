@@ -38,12 +38,12 @@
 
         $(document).ready(function () {
             Graficos();
-            setInterval(Graficos, 5000);
+            setInterval(Graficos, 10000);
         });
 
         function Graficos() {
             $.ajax({
-                url: "/sugerencias/Graficos/",
+                url: "/Indicadores/Graficos/",
                 contentType: "application/json;charset=UTF-8",
                 dataType: "json",
                 type: "POST",
@@ -106,7 +106,7 @@
                     }
                 },
                 error: function () {
-                    window.location.href = "@Url.Action("Login", "Login")";
+                   // window.location.href = "@Url.Action("Login", "Login")";
                 }
             });
         }
