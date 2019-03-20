@@ -29,29 +29,31 @@ namespace SAC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(string Usuario, string Contraseña)
+        public ActionResult Login(string Mail, string Contraseña)
         {
             var _usuario = new Models.Usuarios();
 
             using (var db = new Models.dbModel())
             {
-                _usuario = db.Usuarios.Where(U => U.Usuario == Usuario).FirstOrDefault();
+                _usuario = db.Usuarios.Where(U => U.Correo == Mail).FirstOrDefault();
             }
             if (_usuario != null)
             {
-                if (_usuario.Usuario == Usuario && _usuario.Contraseña == Contraseña)
+                if (_usuario.Correo == Mail && _usuario.Contraseña == Contraseña)
                 {
                     HttpCookie _User_Info = new HttpCookie("UserInfo");
                     _User_Info["img"] = _usuario.Img;
                     _User_Info["Codigo"] = _usuario.CodigoUsuario.ToString();
-                    _User_Info["Roll"] = 1.ToString();
-                   
-                   var  rm = _usuario.Autenticarse();
+                    _User_Info["Roll"] = _usuario.Roll.ToString();
+                    _User_Info["Mail"] = _usuario.Correo;
+                    _User_Info["Usuario"] = _usuario.Usuario;
 
-                    if (rm.response)
-                    {
-                        rm.href = Url.Content("~/home");
-                    }
+                    var  rm = _usuario.Autenticarse();
+
+                    //if (rm.response)
+                    //{
+                    //    rm.href = Url.Content("~/home");
+                    //}
 
                     Response.Cookies.Add(_User_Info);
                     //Response.Cookies["Usuario"].Expires = DateTime.Now.AddDays(100);
@@ -133,23 +135,27 @@ namespace SAC.Controllers
         public ActionResult Edit(int Usuario)
         {
             var _usuario = new Models.Usuarios();
-            if (Usuario != 0) {
-                using (var db = new Models.dbModel())
-                {
+            using (var db = new Models.dbModel())
+            {
+                if (Usuario != 0) {
+               
                     _usuario = db.Usuarios.Where(U => U.CodigoUsuario == Usuario).FirstOrDefault();
+                
                 }
+                ViewBag.Roles = db.Rol.ToList();
             }
+       
             return View(_usuario);
         }
         [Authorize]
         [HttpPost]
-        public ActionResult Edit(Models.Usuarios usuario)
+        public JsonResult Edit(Models.Usuarios usuario)
         {
             if (ModelState.IsValid)
             {
                 using (var db = new Models.dbModel())
                 {
-                    var _usuario = db.Usuarios.Where(U => U.CodigoUsuario == usuario.CodigoUsuario).FirstOrDefault();
+                    var _usuario = db.Usuarios.Where(U => U.Correo == usuario.Correo).FirstOrDefault();
                     if (_usuario is null)
                     {
                         db.Usuarios.Add(usuario);
@@ -167,7 +173,7 @@ namespace SAC.Controllers
                     //Response.Cookies.Set(_User_Info);
                 }
             }
-            return View(usuario);
+            return Json("Alert('Hola k hace!');");
         }
 
         public ActionResult GuardarRutaImg(int Codigo)

@@ -28,9 +28,11 @@ namespace SAC.Controllers
             return View();
         }
 
-        public ActionResult Panel()
+        [System.Web.Mvc.Authorize]
+        public ActionResult Panel(int? Login = 0)
         {
             ViewBag.Message = "Your contact page.";
+            ViewBag.Login = Login;
 
             return View();
         }

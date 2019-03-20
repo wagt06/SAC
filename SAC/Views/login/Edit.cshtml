@@ -7,18 +7,31 @@
 
 
 
-<div class="col-md-6">
+<div class="col-md-12">
     <div class="row">
         <h2>Informacion del Usuario</h2>
-        <div class="col-md-12">
 
             @*@using (Html.BeginForm("Edit", "Login", FormMethod.Post, new { id = "frm-Usuarios" }))
-            {*@
-            <form action="~/Login/Edit" method="post">
-                @Html.AntiForgeryToken()
+                {*@
+        <form action="~/Login/Edit" data-ajax-method="post" 
+              data-ajax="true"
+              data-ajax-success="OnAjaxSuccess"
+             data-ajax-begin="onAjaxBegin"
+             data-ajax-complete="onAjaxComplete"
+             data-ajax-failure="failed" id="frm-Usuario">
+            @Html.AntiForgeryToken()
+
+            <div class="col-md-12">
                 <a href="#">
-                    <img class="img-thumbnail img-responsive" id="Img" style="height:150px" src="@Model.Img" alt="...">
+                    @{
+
+                        var img = @Model.Img != "" && Model.Img != null ? Model.Img : "/Content/img/Users/user-m.png";
+
+                    }
+                    <img class="img-thumbnail img-responsive" id="Img" style="height:150px" src="@img" alt="...">
                 </a>
+            </div>
+            <div class="col-md-6">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <input type="text" name="Usuario.CodigoUsuario" id="Usuario.CodigoUsuario" class="hide" value="@Model.CodigoUsuario" />
                 <div class="form-group">
@@ -32,16 +45,36 @@
                     <input class="form-control" type="email" name="Usuario.Correo" id="Usuarios.Correo" value="@Model.Correo" />
                     @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
                 </div>
+
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label" })
-                    <input class="form-control" type="password" name="Usuario.Contraseña" id="Usuarios.Contraseña" value="@Model.Contraseña"   aria-describedby="basic-addon2"/>
+                    <input class="form-control" type="password" name="Usuario.Contraseña" id="Usuarios.Contraseña" value="@Model.Contraseña" aria-describedby="basic-addon2" />
                     @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
                 </div>
 
+
                 <div class="form-group">
                     <label class="control-label">Repita Contraseña</label>
-                    <input class="form-control" type="password" value="@Model.Contraseña"  aria-describedby="basic-addon2" />
+                    <input class="form-control" type="password" value="@Model.Contraseña" aria-describedby="basic-addon2" />
                 </div>
+
+            </div>
+            <div class="col-md-6">
+                @if (Models.Commons.FrontUser.TienePermiso(Models.Commons.RolesPermisos.ModificarRoll))
+                {
+                    <div class="form-group">
+                        <label class="control-label">Roll de Usuario</label>
+                        <select class="form-control form-group-sm" id="Usuario.Roll" name="Usuario.Roll">
+                            @foreach (SAC.Models.Seguridad.Rol r in ViewBag.Roles)
+                            {
+                                var _Selected = @Model.Roll == r.id ? "Selected" : "";
+                                <option value="@r.id" @_Selected>@r.Nombre</option>
+                            }
+
+                        </select>
+                    </div>
+                }
                 <input class="hide UsuarioImg" type="text" id="UsuarioImg" name="Usuario.Img" value="@Model.Img" />
                 <label for="exampleInputFile">Imagen del Perfil</label>
                 <div class="form-inline">
@@ -54,25 +87,28 @@
                         <p class="help-block">Seleccione una Imagen para foto de Perfil</p>
                     </div>
                 </div>
+
+            </div>
+            <div class="col-md-12">
                 <div class="form-group">
-                    <input type="submit" data-ajax="true" value="Guardar" class="btn btn-default" />
+                    <input type="submit" data-ajax="true"
+                           value="Guardar" class="btn btn-default" />
                 </div>
-            </form>
-            @*}*@
+            </div>
+        </form>
         </div>
     </div>
-</div>
 
-<div class="col-md-6">
 
-</div>
 
 
 @section scripts{
-          <script type="text/javascript">
-              $(document).ready(function () {
 
-    
+    <script type="text/javascript">
+
+              $(document).ready(function () {
+                  $.validator.unobtrusive.parse("#frm-Usuario");
+
               });
 
               function uploadFile() {
@@ -95,6 +131,29 @@
                       }
                   });
               }
-            </script>
+
+        
+        function OnAjaxSuccess(context) {
+               new PNotify({
+                title: 'Informacion',
+                text: 'La informacion Se guardo con exito! ^_^',
+                type: 'info',
+                styling: 'bootstrap3'
+            });
+        }
+
+        function onAjaxBegin(context) {
+                    //alert("Begin");
+                }
+
+        function onAjaxComplete(context) {
+                    //alert("Complete");
+                }
+
+                failed = function (xhr) {
+                    //alert("faile");
+                };
+
+    </script>
 }
 

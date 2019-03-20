@@ -23,6 +23,8 @@ namespace SAC.Controllers
                     Name = "Sugerencias",
                     Value = db.Quejas.Count()
                 });
+
+
                 Indicadores.Add(new Models.Graficos
                 {
                     Name = "Casos",
@@ -30,7 +32,7 @@ namespace SAC.Controllers
                              join u in db.Casos_Usuarios on q.Id_Caso 
                              equals u.Id_Caso
                              join r in db.Estados_Casos on q.Codigo_Estado equals r.Codigo_Estado
-                             where u.Id_Usuario == CodigoUsuario && u.Id_Rol == CodigoRoll && r.Escierre == false select new { u.Id_Caso }).Count()
+                             where u.Id_Usuario == CodigoUsuario && u.Id_Usuario == CodigoUsuario && r.Escierre == false select new { u.Id_Caso }).Count()
             });
             }
             return Json(Indicadores, JsonRequestBehavior.AllowGet);

@@ -1,11 +1,12 @@
 ﻿@model List<SAC.Models.Resoluciones.Comentarios_vista>
 @{
     int Count = 0;
-    int Caso = 0;
+    int Caso = (int)ViewData["Caso"];
+    int CodigoUsuario = Helper.SessionHelper.GetUser();
     int UserAnterior = 0; //mostrar Comentarios ordenados
-    int Roll = (int)ViewData["Roll"];
+    int Roll_Caso = (int)ViewData["Roll_Caso"];
 }
-<h3 style="text-overflow: ellipsis;">Comentario de los Observadores</h3>
+<h4 style="text-overflow: ellipsis;">Comentario de los Observadores</h4>
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading"><i class="fa fa-users" aria-hidden="true"></i> Comentarios</div>
@@ -21,7 +22,6 @@
                     Count = Count + 1;
                 }
                 UserAnterior = c.Codigo_Observador;
-                Caso = c.Id_Caso;
 
                 string Class = (Count % 2) != 0 ? "media-left" : "media-right pull-right";
                 string align = (Count % 2) != 0 ? "" : "text-right";
@@ -29,15 +29,16 @@
                 <div class="media" style="margin:0px;padding:0px;">
                     <div class="@Class">
                         <a href="#">
-                            <img class="media-object" src="@c.Img"  style="width:4em" alt="">
+                            <img class="media-object" src="@c.Img"  style="width:2.5em;height:2.5em; border-radius:50%" alt="">
                         </a>
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading @align" style="color:dimgray">@c.Observador</h4>
-                        <p class="@align" style="border-radius: 5px;background-color:#f8f8f8;padding: 5px;">
-                            <span class="row">@c.Fecha_Comentario</span>
-                            @c.Comentario
-                        </p>
+                        <div class="@align" style="border-radius: 5px;background-color:#f8f8f8;padding:0.5em">
+                            @c.Fecha_Comentario
+                            <p style="padding-top:0">@c.Comentario</p>
+
+                        </div>
                     </div>
                 </div>
             }
@@ -47,26 +48,26 @@
 
     <div class="panel-footer">
         <form id="frmComentarios" method="post" action="~/Casos/GuardarComentarios">
-            <div class="form-group">
+            <div class="form-group "style="margin:1em">
                     <input type="text" value="@Caso" id="Id_Caso" name="Id_Caso" class="hidden" />
-                    <input type="text" value="1" id="Codigo_Observador" name="Codigo_observador" class="hidden" />
+                    <input type="text" value="@CodigoUsuario" id="Codigo_Observador" name="Codigo_observador" class="hidden" />
                     <div class="row">
-                        @if (Roll == 2)
-                        {
-                            <div class="input-group">
-                                <input type="text" name="Comentario" class="form-control" id="Comentario" placeholder="Ingrese su comentario!">
-                                <span class="input-group-btn">
-                                    <input type="submit" data-ajax="true"
-                                           OnBegin="onAjaxBegin"
-                                           OnComplete="onAjaxComplete"
-                                           data-ajax-failure="failed"
-                                           value="Enviar"
-                                           name="Submit"
-                                           class="btn btn btn-success" />
-                                </span>
-                            </div>
-
-                        }
+                       
+                            @if (Models.Commons.FrontUser.TienePermiso(Models.Commons.RolesPermisos.EscribirComentarios))
+                                    {
+                                <div class="input-group">
+                                    <input type="text" name="Comentario" class="form-control" id="Comentario" placeholder="Ingrese su comentario!">
+                                    <span class="input-group-btn">
+                                        <input type="submit" data-ajax="true"
+                                               OnBegin="onAjaxBegin"
+                                               OnComplete="onAjaxComplete"
+                                               data-ajax-failure="failed"
+                                               value="Enviar"
+                                               name="Submit"
+                                               class="btn btn btn-success" />
+                                    </span>
+                                </div>
+                            }
                     </div>
                 <div id="Results"></div>
 

@@ -18,15 +18,23 @@ namespace SAC.Controllers
     {
         // GET: Sugerencias
         [Authorize]
-        public ActionResult Index(DateTime? FechaInicio, DateTime? fechaFin, int? Estado)
+        public ActionResult Index(DateTime? FechaInicio, DateTime? fechaFin, int? Estado )
         {
 
             if (Request.Cookies["Usuario"] != null) {
                 string CookieValue = Request.Cookies["Usuario"].Value;
             }
-
             var session = HttpContext.Request.Cookies["Usuario"];
 
+            if (FechaInicio == null)
+            {
+                FechaInicio = DateTime.Now.AddDays(-30);
+                fechaFin = DateTime.Now.AddDays(1);
+                Estado = 1;
+            }
+
+            fechaFin = fechaFin.Value.AddDays(1);
+           
             List<Models.QuejasVista> Quejas = new List<Models.QuejasVista>();
             using (var db = new Models.dbModel()) {
 
@@ -35,7 +43,7 @@ namespace SAC.Controllers
                 if (Estado == 0) {
 
                   
-                    Quejas = (from q in db.Quejas.Where(x => x.Fecha >= FechaInicio && x.Fecha <= FechaInicio)
+                    Quejas = (from q in db.Quejas.Where(x => x.Fecha >= FechaInicio && x.Fecha <= fechaFin)
                               join e in db.Estados_Casos
                               on q.CodigoTipo equals e.Codigo_Estado
                               select new Models.QuejasVista
@@ -50,9 +58,9 @@ namespace SAC.Controllers
                 }
                 else {
 
-                    Quejas = (from q in db.Quejas.Where(x=>x.Fecha >= FechaInicio && x.Fecha <= FechaInicio && x.CodigoEstado == Estado)
+                    Quejas = (from q in db.Quejas.Where(x=>x.Fecha >= FechaInicio && x.Fecha <= fechaFin && x.CodigoEstado == Estado)
                               join e in db.Estados_Casos
-                              on q.CodigoTipo equals e.Codigo_Estado
+                              on q.CodigoEstado equals e.Codigo_Estado
                               select new Models.QuejasVista
                               {
                                   CodigoQueja = q.CodigoQueja,
@@ -87,6 +95,7 @@ namespace SAC.Controllers
 
                 ViewBag.Casos = casos1;
                 ViewBag.Estados = Estados;
+                ViewBag.Estado = Estado;
             }
 
             return View(Quejas);
@@ -134,6 +143,7 @@ namespace SAC.Controllers
                 using (var db = new Models.dbModel())
                 {
                     Quejas.Fecha = DateTime.Now;
+                    Quejas.CodigoEstado = 1;
                     db.Quejas.Add(Quejas);
                     db.SaveChanges();
 

@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_Panel_Layout.cshtml";
     ViewBag.Title = "Sugerencias";
+    List<SAC.Models.Resoluciones.Casos> Casos = ViewBag.Casos;
 }
 
 
@@ -28,11 +29,11 @@
                     <div class="form-group text-left">
                         <label class="">Estado</label>
                         <br />
-                        <select class="form-control width-80" name="Estado">
+                        <select class="form-control width-80" name="Estado" id="Estado">
                             <option value="0" selected>-- Todos --</option>
                             @foreach (SAC.Models.Resoluciones.Estados_Casos e in ViewBag.Estados)
                             {
-                                var Selected = e.Codigo_Estado == 0 ? "selected" : "";
+                                var Selected = e.Codigo_Estado == ViewBag.Estado ? "selected" : "";
 
                                 <option value="@e.Codigo_Estado" @Selected>@e.Nombre_Estado</option>
                             }
@@ -89,49 +90,44 @@
                                 @item.Fecha.ToShortDateString()
                             </td>
                             <td style="width:10%">
-                                @*@{ string estado = "";
-                                   Boolean EstadoFinal = false;
-                                    foreach (SAC.Models.Resoluciones.Estados_Casos e in ViewBag.Estados)
-                                    {
-                                        if (item.CodigoEstado == e.Codigo_Estado)
-                                        {
-                                            estado = e.Nombre_Estado;
-                                            EstadoFinal = e.Escierre;
-                                        }
-                                    }
-                                }*@
                                 <span class="label label-primary"> @item.EstadoNombre</span> 
                             </td>
                             <td style="width:30%">
                                 <button type="button" id="CodigoQueja" onclick="return verComentario('@item.CodigoQueja')" class="btn btn-secondary btn-sm btn-dt">Detalle</button>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Caso
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        @{
-                                            foreach (SAC.Models.Resoluciones.Casos e in ViewBag.Casos)
-                                            {
-                                                if (item.CodigoQueja == e.Codigo_Queja)
-                                                {
-                                                    <li>
-                                                        <a href="~/Casos/Resolucion/?Caso=@e.Id_Caso">
-                                                            Caso: @e.Id_Caso Resp.: @e.NombreResponsable
-                                                            <span class="label label-primary"> @e.NombreEstado </span>
-                                                        </a>
-                                                    </li>
-                                                }
 
+                                @if (Casos.Count > 0)
+                                {
+
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Caso
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            @{
+                                                foreach (SAC.Models.Resoluciones.Casos e in Casos)
+                                                {
+                                                    if (item.CodigoQueja == e.Codigo_Queja)
+                                                    {
+                                                        <li>
+                                                            <a href="~/Casos/Resolucion/?Caso=@e.Id_Caso">
+                                                                Caso: @e.Id_Caso Resp.: @e.NombreResponsable
+                                                                <span class="label label-primary"> @e.NombreEstado </span>
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                }
                                             }
-                                        }
-                                    </ul>
-                                </div>
+                                        </ul>
+                                    </div>
+
+                                }
                                 @if (Models.Commons.FrontUser.TienePermiso(Models.Commons.RolesPermisos.Crear_Casos))
                                 {
                                     <a href="~/Casos/Create/?codigo=@item.CodigoQueja" class="btn btn-primary btn-sm">Crear Caso</a>
                                 }
-                                </td>
+                            </td>
                      </tr>
                 }
             </tbody>

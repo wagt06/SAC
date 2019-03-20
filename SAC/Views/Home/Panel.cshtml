@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Panel";
     Layout = "~/Views/Shared/_Panel_Layout.cshtml";
+    HttpCookie _UserInfo = Request.Cookies["UserInfo"];
 }
 
 <h2>Panel</h2>
@@ -35,11 +36,23 @@
 
 
     <script>
-
         $(document).ready(function () {
             Graficos();
             setInterval(Graficos, 10000);
+            bienvendio();
+            
         });
+        function bienvendio() {
+
+            if (@ViewBag.Login == 1) {
+                new PNotify({
+                    title: 'Mensaje de SAC ',
+                    text: 'Bievenido! @_UserInfo["Usuario"]  ^_^',
+                    type: 'success',
+                    styling: 'bootstrap3'
+                });
+            }
+        }
 
         function Graficos() {
             $.ajax({
@@ -106,7 +119,6 @@
                     }
                 },
                 error: function () {
-                   // window.location.href = "@Url.Action("Login", "Login")";
                 }
             });
         }

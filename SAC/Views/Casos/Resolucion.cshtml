@@ -5,14 +5,20 @@
     var Tipos = (List<SAC.Models.TiposQuejas>)ViewBag.Tipos;
     var Estados = (List<SAC.Models.Resoluciones.Estados_Casos>)ViewBag.Estados;
     int Count = 0;
-    var Roll = 3;
+    int Roll_Caso = ViewBag.Roll_Caso;
     string resp = "";
 }
 <div class="container-fluid" style="margin-top:1vh">
 
     <div class="col-md-8">
-        <h3>Gestion de Resolucion caso No. @Model._Caso.Id_Caso</h3>
-        <form action="~/Casos/GuardarCaso" method="post">
+        <h4>Gestion de Resolucion caso No. @Model._Caso.Id_Caso</h4>
+        <form action="~/Casos/GuardarCaso" data-ajax-method="post" 
+                 data-ajax="true"
+                 data-ajax-success="OnAjaxSuccess"
+                 data-ajax-begin="onAjaxBegin"
+                 data-ajax-complete="onAjaxComplete" id="frm-Asignaciones"
+                 data-ajax-failure="failed"
+              >
             <input type="text" name="Id_Caso" value="@Model._Caso.Id_Caso" id="Id_caso" class="hidden" />
             <input type="text" name="Codigo_Queja" value="@Model._Caso.Codigo_Queja" id="Id_caso" class="hidden" />
             <div class="panel panel-default">
@@ -22,28 +28,39 @@
                         <span class="pull-right">
                             <strong>Tipo: </strong> @Tipos.Find(x => x.CodigoTipoQueja == @Model._Queja.CodigoTipo).Descripcion
                             <strong>Area: </strong> @Model._Areas.Find(x => x.CodigoArea == Model._Queja.CodigoDepartamento).NombreArea.ToString()
-                            <a id="ocultar_reclasificacion" class="btn"><i id="btnClasifi" class="fas fa-plus-square"></i></a>
+                            <a id="ocultar_reclasificacion" class="btn"><i id="btnClasifi" class="fas fa-minus-square"></i></a>
                         </span>
 
                     </div>
                 </div>
-                @if (Roll == 3) {
-                <div class="panel-heading collapse" style="padding:1em" id="panel-reclasificacion">
+                <div class="panel-heading " style="padding:1em" id="panel-reclasificacion">
                     <div>
                         <i class="media-object fa fa-user" aria-hidden="true"></i> Re-Clasificacion Caso
+                      @{ 
+                          string enable = "";
+                          if (!Models.Commons.FrontUser.TienePermiso(Models.Commons.RolesPermisos.Crear_Casos)) {
+                              enable = "disabled";
+                          }
 
+                      }
+
+                                        
+                         
+                        
+                      
                         <div class="form-inline pull-right">
                             <div class="form-group form-group-sm">
 
-                                <strong>Tipo: </strong> <select class="form-control form-group-sm" id="CodigoTipo" name="CodigoTipo">
+                                <strong>Tipo: </strong>
+                                <select @enable class="form-control form-group-sm" id="CodigoTipo" name="CodigoTipo">
                                     @foreach (SAC.Models.TiposQuejas r in Tipos)
                                     {
                                         var _Selected = @Model._Caso.CodigoTipo == r.CodigoTipoQueja ? "Selected" : "";
-                                        <option value="@r.CodigoTipoQueja" @_Selected >@r.Descripcion</option>
+                                        <option value="@r.CodigoTipoQueja" @_Selected>@r.Descripcion</option>
                                     }
                                 </select>
                                 <strong>Area: </strong>
-                                <select class="form-control form-group-sm" id="CodigoDepartamento" name="CodigoDepartamento">
+                                <select @enable class="form-control form-group-sm" id="CodigoDepartamento" name="CodigoDepartamento">
                                     @foreach (SAC.Models.Area r in Model._Areas)
                                     {
                                         var _Selected = @Model._Caso.CodigoDepartamento == r.CodigoArea ? "Selected" : "";
@@ -55,7 +72,7 @@
 
                     </div>
                 </div>
-                }
+               
 
                 <div class="panel-body">
                     <div class="col-md-12" style="padding:1em">
@@ -95,12 +112,10 @@
                             </select>
                         </div>
                     </div>
-                    @if (Roll == 3) {
+                    @if (Models.Commons.FrontUser.TienePermiso(Models.Commons.RolesPermisos.Crear_Casos) && Model._Caso.Codigo_Estado == 1) {
                     <div class="col-md-12" style="margin-top:1em">
                         <input type="submit" data-ajax="true"
-                               data-ajax-OnBegin="onAjaxBegin"
-                               data-ajax-OnComplete="onAjaxComplete"
-                               data-ajax-failure="failed" value="Guardar" class="btn btn-primary pull-right" />
+                               value="Guardar" class="btn btn-primary pull-right" />
                     </div>
                     }
                 </div>
@@ -112,7 +127,7 @@
             <!-- Default panel contents -->
             @{if (Model._Caso.Codigo_Responsable != 0)
                 {
-                  resp = Model._Observadores.Where(x => x.Id_Usuario == Model._Caso.Codigo_Responsable).FirstOrDefault().Usuario;
+                    resp = Model._Observadores.Where(x => x.Id_Usuario == Model._Caso.Codigo_Responsable).FirstOrDefault().Usuario;
                 }
             <div class="panel-heading">
                 <i class="fa fa-gavel" aria-hidden="true"></i> <strong>Responsable de Resolución: </strong>@resp
@@ -122,23 +137,28 @@
             <div class="panel-body">
                 @{
                     string action = "";
-                    if (Roll == 1)
-                    {
-                        action = "action='~/Casos/GuardarResolucion";
-                    }
-                    else
-                    {
-                        action = "";
-                    }
+                    action = "action='~/Casos/GuardarResolucion'";
+
                 }
-                <form class="form-horizontal" style="padding:1em" method="post">
+                <form class="form-horizontal" style="padding:1em" action="~/Casos/GuardarResolucion"data-ajax-method="post" 
+                 data-ajax="true"
+                 data-ajax-success="OnAjaxSuccess"
+                 data-ajax-begin="onAjaxBegin"
+                 data-ajax-complete="onAjaxComplete" id="frm-Resolucion"
+                 data-ajax-failure="failed">
                     <div class="form-group">
                         <input class="hide" name="Id_Caso" id="Id_Caso" value="@Model._Caso.Id_Caso" @action />
                         <input class="hide" name="Codigo_Responsable" id="Codigo_Responsable" value="@Model._Caso.Codigo_Responsable" />
-                        <textarea id="Comentario" name="Comentario" rows="7" cols="50" class="form-control text-left">@Model._Caso.Comentario</textarea>
+                        @{  string requerido = "";
+                            if (Model._Caso.Codigo_Estado == 2)
+                            {
+                               requerido = "required";
+                            }
+                            }
+                        <textarea id="Comentario" name="Comentario"  @requerido  rows="7" cols="50" class="form-control text-left">@Model._Caso.Comentario</textarea>
                     </div>
-                    <div class="form-inline col-sm-6 col-xs-6" style="padding-left:0;margin-left:0">
-                        <select class="form-control" id="Codigo-Estado" name="Codigo_Estado">
+                    <div class="form-inline col-sm-12 col-xs-12" style="padding-left:0;margin-left:0">
+                        <select class="form-control" disabled>
                             @foreach (SAC.Models.Resoluciones.Estados_Casos r in Estados)
                             {
                                 var _Selected = @Model._Caso.Codigo_Estado == r.Codigo_Estado ? "Selected" : "";
@@ -146,77 +166,57 @@
                             }
                         </select>
 
-                        <input type="button" name="name" value="Iniciar" class="btn btn-primary" />
-                        @*<input type="button" name="name" value="Iniciar" class="btn btn-primary" />
-                        <input type="button" name="name" value="Iniciar" class="btn btn-primary" />*@
+                        @if (Estados.Find(x => x.Codigo_Estado == Model._Caso.Codigo_Estado).Codigo_Estado == 1) //Cuando el caso no este cerrado
+                        {
+                            if (Roll_Caso == 1)
+                            {
+                                <button type="submit" data-ajax="true"
+                                        data-ajax-OnBegin="onAjaxBegin"
+                                        data-ajax-OnComplete="onAjaxComplete"
+                                        data-ajax-failure="failed"
+                                        id="Codigo_Estado"
+                                        name="Codigo_Estado"
+                                        value="2"
+                                        class="btn btn-success pull-right">
+                                    Iniciar
+                                </button>
+                            }
+                        }
+                       @if (Roll_Caso == 1)
+                        {
+                        if ((!Estados.Find(x => x.Codigo_Estado == Model._Caso.Codigo_Estado).Escierre) && Model._Caso.Codigo_Estado == 2) //Cuando el caso este Activo
+                        {
+                            <select class="form-control" id="Codigo_Estado" name="Codigo_Estado">
+                                @foreach (SAC.Models.Resoluciones.Estados_Casos r in Estados.Where(x => x.Escierre == true))
+                                {
+                                    var _Selected = @Model._Caso.Codigo_Estado == r.Codigo_Estado ? "Selected" : "";
+                                    <option value="@r.Codigo_Estado" @_Selected>@r.Nombre_Estado</option>
+                                }
+                            </select>
 
+
+                            <button type="submit" data-ajax="true"
+                                    data-ajax-OnBegin="onAjaxBegin"
+                                    data-ajax-OnComplete="onAjaxComplete"
+                                    data-ajax-failure="failed"
+                                    class="btn btn-success pull-right">
+                                Finalizar
+                            </button>
+
+                        }
+                        }
                     </div>
-                    @if (Roll == 1)
-                    {
-                        <button type="submit" data-ajax="true"
-                                data-ajax-OnBegin="onAjaxBegin"
-                                data-ajax-OnComplete="onAjaxComplete"
-                                data-ajax-failure="failed"
-                                value="Enviar"
-                                name="Submit" class="btn btn-success pull-right">
-                            Guardar
-                        </button>
-                      
-                    }
-
                 </form>
             </div>
         </div>
     </div>
-   
+
     @*Comentarios*@
-    <div class="col-md-4">
+    <div id="dvComentarios" class="col-md-4">
         @{
-            Html.RenderPartial("Comentarios", @Model._Comentarios, new ViewDataDictionary { { "Roll", Roll } } );
+            Html.RenderPartial("Comentarios", @Model._Comentarios, new ViewDataDictionary { { "Roll_Caso", Roll_Caso }, { "Caso", Model._Caso.Id_Caso}} );
         }
-        @*
-            <h3 style="text-overflow: ellipsis;">Comentario de los Observadores</h3>
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading"><i class="fa fa-users" aria-hidden="true"></i> Comentarios</div>
-                <div class="panel-body pre-scrollable" style="min-height:65vh">
-
-                    @foreach (var c in Model._Comentarios)
-                    {
-                        Count = Count + 1;
-                        string Class = (Count % 2) != 0 ? "media-left" : "media-right pull-right";
-
-                        <div class="media">
-                            <div class="@Class">
-                                <a href="#">
-                                    <img class="media-object" src="..." alt="">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">@c.Observador</h4>
-                                @c.Comentario
-                            </div>
-                        </div>
-                        <hr />
-                    }
-                </div>
-
-                <div class="panel-footer">
-                    <form id="frmComentarios" method="post" action="~/Casos/GuardarComentarios">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="text" value="@Model._Caso.Id_Caso" id="Id_Caso" name="Id_Caso" class="hidden" />
-                                <input type="text" value="1" id="Codigo_Observador" name="Codigo_observador" class="hidden" />
-                                <input type="text" name="Comentario" class="form-control" id="Comentario" placeholder="Ingrese su comentario!">
-                                <div id="Results"></div>
-                                <input type="submit"  data-ajax="true" value="Enviar" name="Submit" class="btn btn-block btn-success" />
-                            </div>
-                            <span class="text-info">Vas a comentar como: <strong>@Model._Observadores.Where(x => x.Id_Usuario == Model._Caso.Codigo_Responsable).FirstOrDefault().Usuario</strong></span>
-                        </div>
-
-                    </form>
-                </div>
-            </div>*@
+ 
     </div>
 </div>
 
@@ -225,13 +225,13 @@
 
 
 @section scripts {
+
     <script src="~/Scripts/js/chosen.jquery.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/jquery.form.min.js"></script>
+
     <script>
         jQuery(document).ready(function () {
             jQuery(".chosen").data("placeholder", "Select ...").chosen();
+
             gotoBottom("comentarios_scroll");
 
             $('#ocultar_reclasificacion').click(function () {
@@ -249,54 +249,55 @@
                 }
 
             });
+            $.validator.unobtrusive.parse("#frm-Asignaciones");
         });
 
         function gotoBottom(id) {
             var element = document.getElementById(id);
             element.scrollTop = element.scrollHeight - element.clientHeight;
         }
+        function OnAjaxSuccess(context) {
+            if (context == "Resolucion") {
+                asyncCall();
+            } else {
+                new PNotify({
+                    title: 'Mensaje de SAC',
+                    text: context,
+                    type: 'info',
+                    styling: 'bootstrap3'
+                });
+            }
+        }
+        async function asyncCall() {
 
-
-        function onAjaxBegin() {
-            alert("Begin");
-           // $("#divLoading").removeClass("ShowLoader").addClass("ShowLoader");
+            new PNotify({
+                title: 'Mensaje de SAC',
+                text: "Se actualizo la información",
+                type: 'info',
+                styling: 'bootstrap3'
+            });
+            window.location.href = await sleep();
         }
 
-        function onAjaxComplete() {
-           // $('#partialView').load('/Casos/Comentarios/?Id_Caso= @Model._Caso.Id_Caso'); 
-            alert("Complete");
-                   // $("#divLoading").removeClass("ShowLoader").addClass("HideLoader");
+         function sleep() {
+                    return new Promise(Redirect => {
+                        setTimeout(() => {
+                            Redirect("/Casos/Resolucion/?Caso=@Model._Caso.Id_Caso");
+                        }, 3000);
+                    });
+                }
+        function onAjaxBegin(context) {
+
+        }
+
+        function onAjaxComplete(context) {
+
         }
 
         failed = function (xhr) {
-            alert("faile");
+
         };
 
-            
-
-            //    $("#frmComentarios").submit(function () {
-            //        var form = $(this);
-            //        if (form.validate()) {
-            //            form.ajaxSubmit({
-            //                dataType: 'JSON',
-            //                type: 'POST',
-            //                url: form.attr('action'),
-            //                success: function (r) {
-            //                    if (r.respuesta) {
-            //                    }
-            //                    else {
-            //                        $("#Results").text(r.error).show();
-            //                    }
-            //                },
-            //                error: function (jqXHR, textStatus, errorThrown) {
-            //                    alert(errorThrown);
-            //                }
-            //            });
-            //        }
-
-            //        return false;
-            //    })
-     
     </script>
 
 }

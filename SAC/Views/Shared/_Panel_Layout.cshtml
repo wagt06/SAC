@@ -25,10 +25,17 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto" rel="stylesheet">
 
+    <link href="~/Content/css/pnotify.css" rel="stylesheet" />
+
 
 
 </head>
 <body>
+
+    <div class="collapse" id="container-load" style="background-color:rgba(0, 0, 0, 0.66);width:100%;height:100%;position:absolute;z-index:100;padding-top:40vh">
+        <div class="loader" id="loader">Loading...</div>
+    </div>
+
     <nav class="navbar navbar-default sidebar" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -46,23 +53,23 @@
                     <div class="col-md-12">
                         <img class="img-thumbnail" style="width:100px" src="@_UserInfo["img"]" />
                     </div>
-                    <span>Usuario:<a href="~/Login/Edit/?Usuario=@_UserInfo["Codigo"]"> @System.Web.HttpContext.Current.User.Identity.Name</a></span>
+                    <span>Usuario:<a href="~/Login/Edit/?Usuario=@_UserInfo["Codigo"]"> @_UserInfo["Usuario"] </a></span>
                     <a class="btn-block btn-link" href="~/Login/Delete/?id=1">Cerrar Sesion</a>
                 </div>
                 <ul class="nav navbar-nav">
 
                     @if (Models.Commons.FrontUser.TienePermiso(Models.Commons.RolesPermisos.Ver_Panel))
                     {
-                        <li class="active"><a href="~/Home/Panel">Panel<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+                        <li><a href="~/Home/Panel">Panel<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
                     }
 
 
                     @if (Models.Commons.FrontUser.TienePermiso(Models.Commons.RolesPermisos.Ver_Listas_de_Quejas))
                     {
-                        <li><a href="~/Sugerencias/Index">Sugerencias  <span id="Sugerencias" class="badge">0</span> <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
+                        <li><a href="~/Sugerencias/Index">Sugerencias  <span id="Sugerencias" class="badge"></span> <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
                     }
 
-                    <li><a href="~/casos/index">Mis Casos <span id="Casos" class="badge">0</span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a> </li>
+                    <li><a href="~/casos/index">Mis Casos <span id="Casos" class="badge"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a> </li>
 
                     @if (Models.Commons.FrontUser.TienePermiso(Models.Commons.RolesPermisos.Ver_lista_Usuarios))
                     {
@@ -70,7 +77,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
                             <ul class="dropdown-menu forAnimate" role="menu">
                                 <li><a href="~/Login/index">Todos</a></li>
-                                <li><a href="~/Login/Edit/?Usuario=@_UserInfo["Codigo"]">Nuevo</a></li>
+                                <li><a href="~/Login/Edit/?Usuario=0">Nuevo</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#">Separated link</a></li>
                                 <li class="divider"></li>
@@ -78,7 +85,7 @@
                             </ul>
                         </li>
                     }
-                    </ul>
+                </ul>
             </div>
         </div>
     </nav>
@@ -92,39 +99,130 @@
     @Scripts.Render("~/bundles/bootstrap")
 
     <script src="~/Scripts/js/wow.min.js"></script>
-    <script src="~/Scripts/js/smooth-scroll.polyfills.js"></script>
-    <script src="~/js/smooth-scroll.polyfills.js"></script>
+    @*<script src="~/Scripts/js/smooth-scroll.polyfills.js"></script>
+        <script src="~/js/smooth-scroll.polyfills.js"></script>*@
     @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
     @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+    @*<script src="~/Scripts/jquery.pnotify.min.js"></script>*@
+    <script src="~/Scripts/js/pnotify.custom.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 
     @RenderSection("scripts", required: false)
 
+    <script type="text/javascript">
+        $(function () {
+            //PNotify.prototype.options.styling = "bootstrap3";
+            //PNotify.prototype.options.styling = "fontawesome";
+
+
+            @*new PNotify({
+                title: 'Información SAC PAisas',
+                text: 'Bievenido ! @System.Web.HttpContext.Current.User.Identity.Name ^_^',
+                type: 'success',
+                styling: 'brighttheme'
+            });*@
+
+            //Para Notificaciones de escritorio
+            //var notify = new PNotify({
+            //    title: "Testing notification",
+            //    text: "This is a sample notification",
+            //    desktop: {
+            //        desktop: true
+            //    },
+            //    buttons: {
+            //        sticker: false,
+            //        closer: true
+            //    }
+            //});
+
+            //$(".ui-pnotify-container").click(function () {
+            //    notify.remove();
+            //});
+
+            //new PNotify({
+            //    title: 'Bright Theme Notice',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    styling: 'brighttheme'
+            //});
+            //new PNotify({
+            //    title: 'Bright Theme Info',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    type: 'info',
+            //    styling: 'brighttheme'
+            //});
+            //new PNotify({
+            //    title: 'Bright Theme Success',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    type: 'success',
+            //    styling: 'brighttheme'
+            //});
+            //new PNotify({
+            //    title: 'Bright Theme Error',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    type: 'error',
+            //    styling: 'brighttheme'
+            //});
+            //new PNotify({
+            //    title: 'Bootstrap Notice',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    styling: 'bootstrap3'
+            //});
+            //new PNotify({
+            //    title: 'Bootstrap Info',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    type: 'info',
+            //    styling: 'bootstrap3'
+            //});
+            //new PNotify({
+            //    title: 'Bootstrap Success',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    type: 'success',
+            //    styling: 'bootstrap3'
+            //});
+            //new PNotify({
+            //    title: 'Bootstrap Error',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    type: 'error',
+            //    styling: 'bootstrap3'
+            //});
+            //new PNotify({
+            //    title: 'Font Awesome Notice',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    styling: 'fontawesome'
+            //});
+            //new PNotify({
+            //    title: 'Font Awesome Info',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    type: 'info',
+            //    styling: 'fontawesome'
+            //});
+            //new PNotify({
+            //    title: 'Font Awesome Success',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    type: 'success',
+            //    styling: 'fontawesome'
+            //});
+            //new PNotify({
+            //    title: 'Font Awesome Error',
+            //    text: 'Look at my beautiful styling! ^_^',
+            //    type: 'error',
+            //    styling: 'fontawesome'
+            //});
+
+        });
+    </script>
+
     <script>
+        window.onload = function () {
+            //$('#container-load').removeClass("collapse");
+        };
 
         $(document).ready(function () {
-
-            $('.navbar-toggle').click(function () {
-                $('.navbar-nav').toggleClass('slide-in');
-                $('.side-body').toggleClass('body-slide-in');
-                $('#search').removeClass('in').addClass('collapse').slideUp(200);
-
-                /// uncomment code for absolute positioning tweek see top comment in css
-                //$('.absolute-wrapper').toggleClass('slide-in');
-
-            });
-
-            // Remove menu for searching
-            $('#search-trigger').click(function () {
-                $('.navbar-nav').removeClass('slide-in');
-                $('.side-body').removeClass('body-slide-in');
-
-                /// uncomment code for absolute positioning tweek see top comment in css
-                //$('.absolute-wrapper').removeClass('slide-in');
-
-            });
-
+            //$('#container-load').addClass("collapse");
             Indicadores();
+            setInterval(Indicadores, 10000);
         });
 
 
@@ -137,8 +235,38 @@
                 type: "GET",
                 success: function (result) {
                     if (result != 'undefined') {
-                        $("#Sugerencias").html(result[0].Value);
-                        $("#Casos").html(result[1].Value);
+                        $("#Sugerencias").html(result[0].Value != 0 ? result[0].Value : '');
+                        if (parseInt($("#Casos").html()) < result[1].Value) {
+                            new PNotify({
+                                title: 'Mensajes SAC',
+                                text: 'Se te asigno un caso ! ^_^',
+                                type: 'error',
+                                styling: 'fontawesome'
+                            });
+                        }
+                        $("#Casos").html(result[1].Value != 0 ? result[1].Value : '');
+                        
+
+
+
+                        //PNotify.desktop.permission();
+                        //(new PNotify({
+                        //    title: 'Desktop Notice',
+                        //    text: 'If you\'ve given me permission, I\'ll appear as a desktop notification. If you haven\'t, I won\'t appear at all, because my fallback is turned off.',
+                        //    desktop: {
+                        //        desktop: true,
+                        //        fallback: false
+                        //    }
+                        //})).get().click(function (e) {
+                        //    if ($('.ui-pnotify-closer, .ui-pnotify-sticker, .ui-pnotify-closer *, .ui-pnotify-sticker *').is(e.target)) return;
+                        //    alert('Hey! You clicked the desktop notification!');
+                        //    new PNotify({
+                        //        title: 'Sticky Info',
+                        //        text: 'Sticky info, you know, like a newspaper covered in honey.',
+                        //        type: 'info',
+                        //        hide: false
+                        //    });
+                        //});
                     } else {
 
                         // $("#alerta-correo").fadeOut(3500);
@@ -152,6 +280,7 @@
                 }
 
             });
+
         }
     </script>
 </body>

@@ -155,6 +155,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Models\Commons\FrontUser.cs" />
     <Compile Include="Models\Commons\RolesPermisos.cs" />
     <Compile Include="Controllers\CasosController.cs" />
@@ -193,6 +194,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\animate.css" />
     <Content Include="Content\css\chosen.css" />
+    <Content Include="Content\css\loader.css" />
+    <Content Include="Content\css\pnotify.css" />
     <Content Include="Content\css\responsive-slider.css" />
     <Content Include="Content\img\1.jpg" />
     <Content Include="Content\img\1074118.jpeg" />
@@ -212,6 +215,8 @@
     <Content Include="Content\img\invitado.png" />
     <Content Include="Content\img\logo_paisas.svg" />
     <Content Include="Content\img\logopaisas.png" />
+    <Content Include="Content\jquery.pnotify.css" />
+    <Content Include="Content\jquery.pnotify.icons.css" />
     <Content Include="Content\newletters\blog-stories.html" />
     <Content Include="Content\newletters\Cliente-email-contacto.html" />
     <Content Include="Content\Site_Panel.css" />
@@ -234,6 +239,8 @@
     <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\jquery.form.min.js.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.pnotify.js" />
+    <Content Include="Scripts\jquery.pnotify.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -241,6 +248,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\chosen.jquery.js" />
+    <Content Include="Scripts\js\pnotify.custom.min.js" />
     <Content Include="Scripts\js\responsive-slider.js" />
     <Content Include="Scripts\js\smooth-scroll.polyfills.js" />
     <Content Include="Scripts\js\wow.min.js" />
@@ -272,6 +280,7 @@
     <Content Include="Views\login\Edit.cshtml" />
     <Content Include="Views\login\index.cshtml" />
     <Content Include="Views\login\Details.cshtml" />
+    <Content Include="Views\Error\_ErrorPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
